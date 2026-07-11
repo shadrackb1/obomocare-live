@@ -1,5 +1,7 @@
 const C = 'https://res.cloudinary.com/dilrcexxe/image/upload';
 
+export type Images = typeof IMAGES;
+
 export const IMAGES = {
   homeHero: `${C}/obomocare/omuuqh1qgwiyugc06eua.jpg`,
   aboutHero: `${C}/obomocare/jp2ec9qb586myxhpc9a0.jpg`,

@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import { CheckCircle2, FileText, Download } from 'lucide-react';
-import { IMAGES } from '../lib/images';
+import { useImages } from '../components/ImageProvider';
 
 export default function Transparency() {
+  const IMAGES = useImages();
+
   return (
     <>
       <section className="relative w-full min-h-[60vh] flex items-center justify-center bg-surface-container-low overflow-hidden -mt-20">

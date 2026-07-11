@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ImageProvider } from './components/ImageProvider';
 import Layout from './components/Layout';
 import AdminLayout from './components/AdminLayout';
 
@@ -30,7 +31,8 @@ import AdminMedia from './pages/AdminMedia';
 export default function App() {
   return (
     <BrowserRouter>
-      <Routes>
+      <ImageProvider>
+        <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
@@ -59,7 +61,8 @@ export default function App() {
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="media" element={<AdminMedia />} />
         </Route>
-      </Routes>
+        </Routes>
+      </ImageProvider>
     </BrowserRouter>
   );
 }

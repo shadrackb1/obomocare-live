@@ -1,7 +1,9 @@
 import { MapPin, Mail, Phone } from 'lucide-react';
-import { IMAGES } from '../lib/images';
+import { useImages } from '../components/ImageProvider';
 
 export default function Contact() {
+  const IMAGES = useImages();
+
   return (
     <div className="bg-surface relative z-20">
       <header className="relative h-[50vh] min-h-[400px] flex items-center justify-center overflow-hidden -mt-20">

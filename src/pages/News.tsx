@@ -1,30 +1,35 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import CTA from '../components/CTA';
-import { IMAGES } from '../lib/images';
+import { useImages } from '../components/ImageProvider';
 
 export default function News() {
+  const IMAGES = useImages();
+
   const news = [
     {
       title: "New Mobile Clinic Deployed in Nyamira",
       date: "August 15, 2023",
       category: "Program Update",
       image: IMAGES.news1,
-      excerpt: "Thanks to our generous partners, we have successfully launched our third mobile clinic, extending our maternal health reach by 30%."
+      excerpt: "Thanks to our generous partners, we have successfully launched our third mobile clinic, extending our maternal health reach by 30%.",
+      link: "/stories/3"
     },
     {
       title: "Volunteer Training Cohort 4 Graduates",
       date: "July 22, 2023",
       category: "Community",
       image: IMAGES.news2,
-      excerpt: "45 new local volunteers have completed their extensive caregiver and first responder training program."
+      excerpt: "45 new local volunteers have completed their extensive caregiver and first responder training program.",
+      link: "/stories/2"
     },
     {
       title: "Emergency Food Drive Reaches 500 Families",
       date: "June 10, 2023",
       category: "Impact",
       image: IMAGES.news3,
-      excerpt: "Following the recent dry spell, our rapid response team distributed over 10 tons of nutritional supplies to affected households."
+      excerpt: "Following the recent dry spell, our rapid response team distributed over 10 tons of nutritional supplies to affected households.",
+      link: "/stories/1"
     }
   ];
 
@@ -52,7 +57,7 @@ export default function News() {
               transition={{ delay: index * 0.1 }}
               className="h-full"
             >
-              <Link to="/stories/mama-kerubo" className="bg-white rounded-xl overflow-hidden border border-outline-variant/30 shadow-sm flex flex-col group cursor-pointer hover:shadow-md transition-all h-full">
+              <Link to={item.link} className="bg-white rounded-xl overflow-hidden border border-outline-variant/30 shadow-sm flex flex-col group cursor-pointer hover:shadow-md transition-all h-full">
                 <div className="h-48 overflow-hidden relative">
                   <img 
                     src={item.image} 

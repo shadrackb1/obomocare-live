@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion';
 import CTA from '../components/CTA';
-import { IMAGES } from '../lib/images';
+import { useImages } from '../components/ImageProvider';
 
 export default function Team() {
+  const IMAGES = useImages();
+
   const teamMembers = [
     {
       name: "Dr. Sarah Mokaya",

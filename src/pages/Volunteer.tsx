@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { IMAGES } from '../lib/images';
+import { useImages } from '../components/ImageProvider';
 
 export default function Volunteer() {
+  const IMAGES = useImages();
+
   return (
     <>
       <header className="py-section-gap px-margin-mobile md:px-margin-desktop max-w-3xl mx-auto text-center relative overflow-hidden">

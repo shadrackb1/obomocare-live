@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowDown, Heart, Home, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { IMAGES } from '../lib/images';
+import { useImages } from '../components/ImageProvider';
 
 export default function GetInvolved() {
+  const IMAGES = useImages();
+
   return (
     <>
       <section className="relative w-full min-h-[60vh] flex items-center justify-center overflow-hidden -mt-20">
@@ -140,9 +142,9 @@ export default function GetInvolved() {
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}>
               <div className="glass-card rounded-xl overflow-hidden flex flex-col group border border-outline-variant/30 hover:shadow-[0_0_30px_rgba(253,118,26,0.15)] transition-shadow duration-300 h-full">
                 <div className="h-64 overflow-hidden">
-                  <img 
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" 
-                    src={IMAGES.foodSupport}
+                  <img
+                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                    src={IMAGES.volunteerCorps}
                     alt="Volunteer Corps"
                   />
                 </div>

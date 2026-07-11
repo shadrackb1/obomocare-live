@@ -2,9 +2,11 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Utensils, Car, ShieldPlus, HeartHandshake } from 'lucide-react';
 import { motion } from 'framer-motion';
 import CTA from '../components/CTA';
-import { IMAGES } from '../lib/images';
+import { useImages } from '../components/ImageProvider';
 
 export default function Programs() {
+  const IMAGES = useImages();
+
   return (
     <>
       <section className="py-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto text-center relative overflow-hidden">

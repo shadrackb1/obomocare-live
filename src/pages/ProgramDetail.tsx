@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { IMAGES } from '../lib/images';
+import { useImages } from '../components/ImageProvider';
 
 export default function ProgramDetail() {
+  const IMAGES = useImages();
+
   return (
     <>
       <header className="relative w-full min-h-[70vh] flex items-center justify-center overflow-hidden -mt-20">

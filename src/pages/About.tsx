@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import CTA from '../components/CTA';
-import { IMAGES } from '../lib/images';
+import { useImages } from '../components/ImageProvider';
 
 export default function About() {
+  const IMAGES = useImages();
+
   return (
     <>
       <section className="relative w-full h-[70vh] min-h-[600px] flex items-center justify-center overflow-hidden -mt-20">

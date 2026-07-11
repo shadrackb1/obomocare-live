@@ -1,42 +1,44 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { IMAGES } from '../lib/images';
-
-const stories = [
-  {
-    id: 1,
-    category: 'News',
-    date: 'Oct 12, 2024',
-    readTime: '5 min',
-    title: 'Five Years, Zero International Funding',
-    excerpt: 'How a grassroots model of self-sustainability has allowed OBOMOCARE to thrive independently, focusing solely on community-driven solutions rather than donor mandates.',
-    img: IMAGES.story1,
-    link: '#'
-  },
-  {
-    id: 2,
-    category: 'Program Update',
-    date: 'Sep 28, 2024',
-    readTime: '8 min',
-    title: 'Building a Caregiver Corps',
-    excerpt: 'Inside the rigorous training program that transforms local volunteers into highly skilled caregivers, creating a sustainable health infrastructure from the ground up.',
-    img: IMAGES.story2,
-    link: '#'
-  },
-  {
-    id: 3,
-    category: 'Interview',
-    date: 'Sep 15, 2024',
-    readTime: '15 min',
-    title: 'The Frontline of Maternal Health',
-    excerpt: 'An in-depth conversation with Dr. Amina on the daily realities, challenges, and quiet victories of delivering maternal care in underserved regions.',
-    img: IMAGES.story3,
-    link: '#'
-  }
-];
+import { useImages } from '../components/ImageProvider';
 
 export default function Stories() {
+  const IMAGES = useImages();
+
+  const stories = [
+    {
+      id: 1,
+      category: 'News',
+      date: 'Oct 12, 2024',
+      readTime: '5 min',
+      title: 'Five Years, Zero International Funding',
+      excerpt: 'How a grassroots model of self-sustainability has allowed OBOMOCARE to thrive independently, focusing solely on community-driven solutions rather than donor mandates.',
+      img: IMAGES.story1,
+      link: '/stories/1'
+    },
+    {
+      id: 2,
+      category: 'Program Update',
+      date: 'Sep 28, 2024',
+      readTime: '8 min',
+      title: 'Building a Caregiver Corps',
+      excerpt: 'Inside the rigorous training program that transforms local volunteers into highly skilled caregivers, creating a sustainable health infrastructure from the ground up.',
+      img: IMAGES.story2,
+      link: '/stories/2'
+    },
+    {
+      id: 3,
+      category: 'Interview',
+      date: 'Sep 15, 2024',
+      readTime: '15 min',
+      title: 'The Frontline of Maternal Health',
+      excerpt: 'An in-depth conversation with Dr. Amina on the daily realities, challenges, and quiet victories of delivering maternal care in underserved regions.',
+      img: IMAGES.story3,
+      link: '/stories/3'
+    }
+  ];
+
   return (
     <>
       <section className="relative w-full h-[70vh] min-h-[500px] flex items-end justify-center mb-section-gap -mt-20 overflow-hidden">
@@ -84,7 +86,7 @@ export default function Stories() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <Link to="/stories/mama-kerubo" className="inline-flex items-center gap-2 text-on-primary font-semibold text-sm border-b border-secondary-container pb-1 hover:text-secondary-container transition-colors group">
+            <Link to="/stories/1" className="inline-flex items-center gap-2 text-on-primary font-semibold text-sm border-b border-secondary-container pb-1 hover:text-secondary-container transition-colors group">
               Read the Full Story
               <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
             </Link>

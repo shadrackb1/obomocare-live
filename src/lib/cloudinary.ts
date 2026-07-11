@@ -32,8 +32,6 @@ export async function uploadToCloudinary(
   }
 
   const data = await res.json();
-  // Strip version number so URLs work reliably
-  data.secure_url = data.secure_url.replace(/\/v\d+\//, '/');
   return data;
 }
 

@@ -36,6 +36,7 @@ export default function Layout() {
             <NavLink to="/programs">Programs</NavLink>
             <NavLink to="/impact">Impact</NavLink>
             <NavLink to="/stories">Stories</NavLink>
+            <NavLink to="/gallery">Gallery</NavLink>
             <NavLink to="/team">Team</NavLink>
           </div>
 
@@ -62,18 +63,21 @@ export default function Layout() {
             exit={{ opacity: 0, y: -20 }}
             className="fixed top-20 left-0 w-full bg-primary-container border-b border-on-primary/10 z-40 md:hidden shadow-lg"
           >
-            <div className="flex flex-col px-margin-mobile py-6 space-y-2">
-              <NavLink to="/about"><div className="py-2">About Us</div></NavLink>
-              <NavLink to="/programs"><div className="py-2">Programs</div></NavLink>
-              <NavLink to="/team"><div className="py-2">Our Team</div></NavLink>
-              <NavLink to="/partners"><div className="py-2">Partners</div></NavLink>
-              <NavLink to="/impact"><div className="py-2">Impact</div></NavLink>
-              <NavLink to="/stories"><div className="py-2">Stories</div></NavLink>
-              <NavLink to="/news"><div className="py-2">News</div></NavLink>
-              <NavLink to="/faq"><div className="py-2">FAQ</div></NavLink>
-              <NavLink to="/gallery"><div className="py-2">Gallery</div></NavLink>
-              <div className="pt-6 border-t border-on-primary/10">
-                <Link to="/get-involved" className="block text-center bg-secondary-container text-on-primary font-bold px-8 py-3 rounded hover:opacity-80 transition-opacity">
+            <div className="flex flex-col px-margin-mobile py-6 space-y-1">
+              <NavLink to="/about"><div className="py-2.5">About Us</div></NavLink>
+              <NavLink to="/programs"><div className="py-2.5">Programs</div></NavLink>
+              <NavLink to="/impact"><div className="py-2.5">Impact</div></NavLink>
+              <NavLink to="/stories"><div className="py-2.5">Stories</div></NavLink>
+              <NavLink to="/gallery"><div className="py-2.5">Gallery</div></NavLink>
+              <NavLink to="/team"><div className="py-2.5">Our Team</div></NavLink>
+              <NavLink to="/news"><div className="py-2.5">News</div></NavLink>
+              <NavLink to="/volunteer"><div className="py-2.5">Volunteer</div></NavLink>
+              <NavLink to="/partners"><div className="py-2.5">Partners</div></NavLink>
+              <NavLink to="/transparency"><div className="py-2.5">Transparency</div></NavLink>
+              <NavLink to="/contact"><div className="py-2.5">Contact</div></NavLink>
+              <NavLink to="/faq"><div className="py-2.5">FAQ</div></NavLink>
+              <div className="pt-4 mt-2 border-t border-on-primary/10">
+                <Link to="/get-involved" className="block text-center bg-secondary-container text-on-primary font-bold px-8 py-3.5 rounded hover:opacity-80 transition-opacity">
                   Donate Now
                 </Link>
               </div>

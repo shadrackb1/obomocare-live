@@ -3,7 +3,7 @@ import { ArrowRight, Download, Users, BriefcaseMedical, CheckCircle2 } from 'luc
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
 import { motion } from 'framer-motion';
 import CTA from '../components/CTA';
-import { IMAGES } from '../lib/images';
+import { useImages } from '../components/ImageProvider';
 
 const barData = [
   { year: '2020', households: 1200 },
@@ -22,6 +22,8 @@ const lineData = [
 ];
 
 export default function Impact() {
+  const IMAGES = useImages();
+
   return (
     <>
       <section className="relative min-h-[70vh] flex items-center justify-center py-section-gap overflow-hidden -mt-20">

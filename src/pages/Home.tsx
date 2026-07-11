@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Utensils, Car, ShieldPlus, HeartHandshake } from 'lucide-react';
 import { motion } from 'framer-motion';
 import CountUp from 'react-countup';
-import { IMAGES } from '../lib/images';
+import { useImages } from '../components/ImageProvider';
 
 export default function Home() {
+  const IMAGES = useImages();
 
   return (
     <>
@@ -67,7 +68,7 @@ export default function Home() {
               <span className="relative z-10">See Our Impact</span>
               <div className="absolute inset-0 h-full w-full scale-0 rounded-full transition-all duration-300 ease-out group-hover:scale-[2] bg-white/20"></div>
             </Link>
-            <Link to="/stories/mama-kerubo" className="border border-on-primary text-on-primary font-bold px-8 py-4 rounded hover:bg-white/10 transition-all w-full sm:w-auto text-center backdrop-blur-sm">
+            <Link to="/stories/1" className="border border-on-primary text-on-primary font-bold px-8 py-4 rounded hover:bg-white/10 transition-all w-full sm:w-auto text-center backdrop-blur-sm">
               Our Story
             </Link>
           </motion.div>
