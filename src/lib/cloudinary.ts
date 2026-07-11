@@ -31,7 +31,10 @@ export async function uploadToCloudinary(
     throw new Error(err.error?.message || 'Upload failed');
   }
 
-  return res.json();
+  const data = await res.json();
+  // Strip version number so URLs work reliably
+  data.secure_url = data.secure_url.replace(/\/v\d+\//, '/');
+  return data;
 }
 
 export function getCloudinaryUrl(
