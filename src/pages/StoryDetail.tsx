@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import { Share2, BookmarkPlus } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useImages } from '../components/ImageProvider';
+import PlaceholderImage from '../components/PlaceholderImage';
 
 const STORIES: Record<string, {
   title: string;
@@ -118,11 +119,7 @@ export default function StoryDetail() {
           transition={{ duration: 0.8 }}
           className="relative w-full aspect-video md:aspect-[21/9] rounded-xl overflow-hidden shadow-[0_0_40px_rgba(11,31,58,0.1)] border border-outline-variant/20 group"
         >
-          <img
-            alt={story.title}
-            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-1000"
-            src={(IMAGES as any)[story.imageKey]}
-          />
+          <PlaceholderImage imgSrc={(IMAGES as any)[story.imageKey]} fallbackLabel="story1" alt={story.title} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-1000" />
         </motion.div>
         <motion.p
           initial={{ opacity: 0 }}
@@ -149,11 +146,7 @@ export default function StoryDetail() {
             ))}
             <motion.figure initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} className="my-12">
               <div className="h-64 md:h-96 w-full rounded-xl overflow-hidden bg-surface-container shadow-md group">
-                <img
-                  alt={story.title}
-                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-                  src={(IMAGES as any)[story.bodyImageKey]}
-                />
+                <PlaceholderImage imgSrc={(IMAGES as any)[story.bodyImageKey]} fallbackLabel="story1" alt={story.title} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
               </div>
               <figcaption className="text-sm text-outline mt-4 text-center italic">Documenting the impact of community-driven healthcare delivery.</figcaption>
             </motion.figure>

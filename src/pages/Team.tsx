@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import CTA from '../components/CTA';
 import { useImages } from '../components/ImageProvider';
+import PlaceholderImage from '../components/PlaceholderImage';
 
 export default function Team() {
   const IMAGES = useImages();
@@ -65,11 +66,7 @@ export default function Team() {
               className="bg-white rounded-xl overflow-hidden border border-outline-variant/30 shadow-sm group"
             >
               <div className="aspect-square w-full overflow-hidden">
-                <img 
-                  src={member.image} 
-                  alt={member.name} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
+                <PlaceholderImage imgSrc={member.image} fallbackLabel="homeHero" alt={member.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               </div>
               <div className="p-6">
                 <h3 className="font-display text-xl font-bold text-primary">{member.name}</h3>

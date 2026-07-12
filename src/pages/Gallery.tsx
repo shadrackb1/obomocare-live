@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { useImages } from '../components/ImageProvider';
+import PlaceholderImage from '../components/PlaceholderImage';
 
 type FilterCategory = 'all' | 'care' | 'food' | 'community';
 
@@ -92,11 +93,7 @@ export default function Gallery() {
                 className="relative group overflow-hidden rounded-xl shadow-sm cursor-pointer break-inside-avoid"
                 onClick={() => setSelectedImg(src)}
               >
-                <img 
-                  src={src} 
-                  alt={`Gallery image ${idx + 1}`} 
-                  className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
-                />
+                <PlaceholderImage imgSrc={src} fallbackLabel="gallery" alt={`Gallery image ${idx + 1}`} className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out" />
                 <div className="absolute inset-0 bg-gradient-to-t from-primary-container/80 via-primary-container/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4 md:p-6">
                   <p className="text-on-primary font-semibold text-sm md:text-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">View Full Image</p>
                 </div>

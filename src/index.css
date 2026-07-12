@@ -86,9 +86,6 @@
 }
 
 /* Global image fallback - hides broken images gracefully */
-img {
-  color: transparent;
-}
 img[src=""] {
   display: none;
 }

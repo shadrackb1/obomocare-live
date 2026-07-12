@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowDown, Heart, Home, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useImages } from '../components/ImageProvider';
+import PlaceholderImage from '../components/PlaceholderImage';
 
 export default function GetInvolved() {
   const IMAGES = useImages();
@@ -10,12 +11,8 @@ export default function GetInvolved() {
     <>
       <section className="relative w-full min-h-[60vh] flex items-center justify-center overflow-hidden -mt-20">
         <div className="absolute inset-0 z-0">
-          <img 
-            alt="Hero Background" 
-            className="w-full h-full object-cover scale-105" 
-            src={IMAGES.getInvolvedHero}
-          />
-          <div className="absolute inset-0 bg-primary-container/70 backdrop-blur-sm"></div>
+          <PlaceholderImage imgSrc={IMAGES.getInvolvedHero} fallbackLabel="getInvolvedHero" alt="Hero Background" className="w-full h-full object-cover scale-105" eager />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60"></div>
           {/* Animated Blob */}
           <motion.div 
             animate={{ 
@@ -77,11 +74,7 @@ export default function GetInvolved() {
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
               <div className="glass-card rounded-xl overflow-hidden flex flex-col group border border-outline-variant/30 hover:shadow-[0_0_30px_rgba(253,118,26,0.15)] transition-shadow duration-300 h-full">
                 <div className="h-64 overflow-hidden relative">
-                  <img 
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" 
-                    src={IMAGES.elderlySupport}
-                    alt="Elderly Support"
-                  />
+                  <PlaceholderImage imgSrc={IMAGES.elderlySupport} fallbackLabel="elderlySupport" alt="Elderly Support" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" />
                   <div className="absolute top-4 left-4 bg-surface/90 backdrop-blur-sm px-3 py-1 rounded text-xs font-bold text-primary-container tracking-wider uppercase">Urgent Need</div>
                 </div>
                 <div className="p-8 flex-grow flex flex-col">
@@ -110,11 +103,7 @@ export default function GetInvolved() {
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
               <div className="glass-card rounded-xl overflow-hidden flex flex-col group border border-outline-variant/30 hover:shadow-[0_0_30px_rgba(253,118,26,0.15)] transition-shadow duration-300 h-full">
                 <div className="h-64 overflow-hidden">
-                  <img 
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" 
-                    src={IMAGES.householdCare}
-                    alt="Household Care"
-                  />
+                  <PlaceholderImage imgSrc={IMAGES.householdCare} fallbackLabel="householdCare" alt="Household Care" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" />
                 </div>
                 <div className="p-8 flex-grow flex flex-col">
                   <h3 className="font-display text-2xl font-bold text-primary-container mb-4">Household Care Programme</h3>
@@ -142,11 +131,7 @@ export default function GetInvolved() {
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}>
               <div className="glass-card rounded-xl overflow-hidden flex flex-col group border border-outline-variant/30 hover:shadow-[0_0_30px_rgba(253,118,26,0.15)] transition-shadow duration-300 h-full">
                 <div className="h-64 overflow-hidden">
-                  <img
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                    src={IMAGES.volunteerCorps}
-                    alt="Volunteer Corps"
-                  />
+                  <PlaceholderImage imgSrc={IMAGES.volunteerCorps} fallbackLabel="volunteerCorps" alt="Volunteer Corps" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" />
                 </div>
                 <div className="p-8 flex-grow flex flex-col">
                   <h3 className="font-display text-2xl font-bold text-primary-container mb-4">Volunteer Caregiver Corps</h3>

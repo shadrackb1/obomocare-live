@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import CTA from '../components/CTA';
 import { useImages } from '../components/ImageProvider';
+import PlaceholderImage from '../components/PlaceholderImage';
 
 export default function News() {
   const IMAGES = useImages();
@@ -59,11 +60,7 @@ export default function News() {
             >
               <Link to={item.link} className="bg-white rounded-xl overflow-hidden border border-outline-variant/30 shadow-sm flex flex-col group cursor-pointer hover:shadow-md transition-all h-full">
                 <div className="h-48 overflow-hidden relative">
-                  <img 
-                    src={item.image} 
-                    alt={item.title} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
+                  <PlaceholderImage imgSrc={item.image} fallbackLabel="news1" alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   <div className="absolute top-4 left-4 bg-primary-container text-white px-3 py-1 rounded text-xs font-bold uppercase tracking-wider">
                     {item.category}
                   </div>
