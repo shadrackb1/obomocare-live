@@ -1,65 +1,102 @@
 import React from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
-import { 
-  LayoutDashboard, 
-  BarChart2, 
-  HeartHandshake, 
-  FileText, 
-  CreditCard, 
-  Users,
-  Settings,
-  Bell,
-  Image
-} from 'lucide-react';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
+import { LayoutDashboard, Image, Camera, Users, LogOut, Menu, X } from 'lucide-react';
 import { cn } from '../lib/utils';
 import Logo from './Logo';
 
+const navItems = [
+  { to: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { to: '/admin/media', label: 'Media Library', icon: Image },
+];
+
 export default function AdminLayout() {
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('obomocare_admin');
+    navigate('/admin/login');
+  };
+
   return (
-    <div className="bg-surface text-on-surface font-body-md antialiased min-h-screen flex overflow-hidden">
-      {/* Sidebar */}
-      <aside className="w-64 bg-primary-container text-on-primary flex-shrink-0 flex flex-col h-screen hidden md:flex border-r border-on-primary/10">
-        <div className="h-20 flex items-center px-6">
-          <Link to="/admin/dashboard" className="block w-full">
-            <Logo className="w-48 h-auto -ml-4" />
+    <div className="bg-surface text-on-surface font-body-md antialiased min-h-screen flex">
+      {/* Desktop Sidebar */}
+      <aside className="w-64 bg-primary-container text-on-primary flex-shrink-0 flex flex-col h-screen hidden md:flex">
+        <div className="h-20 flex items-center px-6 border-b border-on-primary/10">
+          <Link to="/admin/dashboard">
+            <Logo className="w-44 h-auto -ml-2" />
           </Link>
         </div>
         
-        <nav className="flex-1 py-6 flex flex-col gap-2 overflow-y-auto">
-          <AdminNavLink to="/admin/dashboard" icon={<LayoutDashboard size={20} />}>Dashboard</AdminNavLink>
-          <AdminNavLink to="/admin/impact" icon={<BarChart2 size={20} />}>Impact Reports</AdminNavLink>
-          <AdminNavLink to="/admin/programs" icon={<HeartHandshake size={20} />}>Programs</AdminNavLink>
-          <AdminNavLink to="/admin/stories" icon={<FileText size={20} />}>Stories</AdminNavLink>
-          <AdminNavLink to="/admin/donations" icon={<CreditCard size={20} />}>Donations</AdminNavLink>
-          <AdminNavLink to="/admin/volunteers" icon={<Users size={20} />}>Volunteers</AdminNavLink>
-          <AdminNavLink to="/admin/media" icon={<Image size={20} />}>Media</AdminNavLink>
+        <nav className="flex-1 py-6 flex flex-col gap-1 overflow-y-auto">
+          {navItems.map(({ to, label, icon: Icon }) => (
+            <SidebarLink key={to} to={to} icon={<Icon size={20} />}>
+              {label}
+            </SidebarLink>
+          ))}
         </nav>
         
-        <div className="p-6 border-t border-on-primary/10">
-          <Link to="/" className="flex items-center gap-3 text-on-primary-container hover:text-on-primary transition-colors mb-4">
-            <Settings size={20} />
-            Exit Admin
+        <div className="p-4 border-t border-on-primary/10 space-y-2">
+          <Link
+            to="/"
+            className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors text-sm"
+          >
+            <Camera size={18} />
+            View Live Site
           </Link>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors text-sm w-full"
+          >
+            <LogOut size={18} />
+            Logout
+          </button>
         </div>
       </aside>
 
+      {/* Mobile Header */}
+      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-primary-container h-16 flex items-center justify-between px-4 border-b border-on-primary/10">
+        <Link to="/admin/dashboard">
+          <Logo className="w-36 h-auto" />
+        </Link>
+        <button onClick={() => setMobileOpen(!mobileOpen)} className="text-on-primary p-2">
+          {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      {mobileOpen && (
+        <div className="md:hidden fixed inset-x-0 top-16 bottom-0 z-40 bg-primary-container border-t border-on-primary/10">
+          <nav className="flex flex-col gap-1 p-4">
+            {navItems.map(({ to, label, icon: Icon }) => (
+              <SidebarLink key={to} to={to} icon={<Icon size={20} />} onClick={() => setMobileOpen(false)}>
+                {label}
+              </SidebarLink>
+            ))}
+            <div className="border-t border-on-primary/10 mt-2 pt-2">
+              <Link to="/" className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors text-sm">
+                <Camera size={18} /> View Live Site
+              </Link>
+              <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-on-primary/70 hover:text-on-primary hover:bg-white/5 transition-colors text-sm w-full">
+                <LogOut size={18} /> Logout
+              </button>
+            </div>
+          </nav>
+        </div>
+      )}
+
       {/* Main Content */}
-      <main className="flex-1 h-screen overflow-y-auto bg-surface pb-12">
-        <header className="h-20 bg-surface/90 backdrop-blur-md sticky top-0 z-40 border-b border-outline-variant/30 flex items-center justify-between px-margin-mobile md:px-margin-desktop">
-          <div>
-            <h1 className="font-headline-md font-display text-primary-container">Welcome back, Admin.</h1>
-          </div>
-          <div className="flex items-center gap-4">
-            <button className="w-10 h-10 rounded-full border border-outline-variant/50 flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors">
-              <Bell size={20} />
-            </button>
-            <div className="w-10 h-10 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-bold">
+      <main className="flex-1 min-h-screen bg-surface md:pb-12 pb-20 pt-16 md:pt-0">
+        <header className="hidden md:flex h-16 bg-surface/90 backdrop-blur-md sticky top-0 z-40 border-b border-outline-variant/30 items-center justify-between px-8">
+          <h1 className="font-display text-lg font-bold text-primary">Obomocare Admin</h1>
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-secondary-container text-on-primary flex items-center justify-center font-bold text-sm">
               A
             </div>
           </div>
         </header>
 
-        <div className="px-margin-mobile md:px-margin-desktop pt-8 max-w-[1400px] mx-auto space-y-8">
+        <div className="px-4 md:px-8 pt-6 md:pt-8 max-w-[1200px] mx-auto space-y-8">
           <Outlet />
         </div>
       </main>
@@ -67,18 +104,19 @@ export default function AdminLayout() {
   );
 }
 
-function AdminNavLink({ to, icon, children }: { to: string, icon: React.ReactNode, children: React.ReactNode }) {
+function SidebarLink({ to, icon, children, onClick }: { to: string; icon: React.ReactNode; children: React.ReactNode; onClick?: () => void }) {
   const location = useLocation();
   const isActive = location.pathname === to;
   
   return (
-    <Link 
-      to={to} 
+    <Link
+      to={to}
+      onClick={onClick}
       className={cn(
-        "flex items-center gap-3 px-6 py-3 transition-colors border-l-4",
-        isActive 
-          ? "bg-white/10 border-secondary-container text-on-primary font-bold" 
-          : "border-transparent text-on-primary-container hover:text-on-primary hover:bg-white/5"
+        "flex items-center gap-3 px-4 py-2.5 mx-2 rounded-lg transition-colors text-sm",
+        isActive
+          ? "bg-white/15 text-on-primary font-bold"
+          : "text-on-primary/60 hover:text-on-primary hover:bg-white/5"
       )}
     >
       {icon}

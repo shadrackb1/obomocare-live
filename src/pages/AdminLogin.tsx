@@ -1,120 +1,101 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { Lock, BadgeAlert, KeyRound, Loader2 } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
 import React, { useState } from 'react';
 import Logo from '../components/Logo';
 
+const ADMIN_PASSWORD = '12345678';
+
 export default function AdminLogin() {
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
     setLoading(true);
-    // Simulate auth delay
+
     setTimeout(() => {
-      navigate('/admin/dashboard');
-    }, 1000);
+      if (password === ADMIN_PASSWORD) {
+        sessionStorage.setItem('obomocare_admin', 'true');
+        navigate('/admin/dashboard');
+      } else {
+        setError('Invalid password. Please try again.');
+        setLoading(false);
+      }
+    }, 600);
   };
 
   return (
-    <div className="bg-primary-container min-h-screen flex flex-col items-center justify-center relative overflow-hidden text-on-primary">
-      {/* Background Effects */}
-      <div className="absolute inset-0 z-0 opacity-50 bg-[radial-gradient(rgba(255,255,255,0.05)_1px,transparent_1px)] [background-size:24px_24px]"></div>
-      <div className="absolute -top-40 -right-40 w-96 h-96 bg-secondary-container/20 rounded-full blur-[100px] z-0 pointer-events-none"></div>
-      <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-[#000615]/40 rounded-full blur-[100px] z-0 pointer-events-none"></div>
-
-      <main className="relative z-10 w-full max-w-md px-margin-mobile md:px-0">
-        <div className="text-center mb-10 flex justify-center flex-col items-center">
-          <Link to="/">
-            <Logo className="w-64 h-auto" />
+    <div className="min-h-screen flex flex-col items-center justify-center bg-surface px-4">
+      <div className="w-full max-w-sm">
+        <div className="text-center mb-8">
+          <Link to="/" className="inline-block">
+            <Logo className="w-48 h-auto mx-auto" />
           </Link>
-          <p className="text-xs text-inverse-primary mt-3 tracking-widest uppercase opacity-80 font-semibold">
-            Institutional Access
+          <p className="text-sm text-on-surface-variant mt-3 tracking-wide uppercase font-semibold">
+            Admin Portal
           </p>
         </div>
 
-        <div className="bg-primary-container/40 backdrop-blur-xl border border-white/10 rounded-xl p-8 shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary-container/20 via-secondary-container to-secondary-container/20"></div>
-          
-          <div className="mb-8 flex items-center justify-center gap-3">
-            <Lock className="text-secondary-container" size={24} />
-            <h2 className="font-display text-2xl font-bold">Secure Administration Portal</h2>
+        <div className="bg-white rounded-2xl shadow-lg border border-outline-variant/20 p-8">
+          <div className="flex items-center justify-center gap-2 mb-6">
+            <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center">
+              <Lock className="text-on-primary" size={18} />
+            </div>
+            <h1 className="font-display text-xl font-bold text-primary">Sign In</h1>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-6">
+          <form onSubmit={handleLogin} className="space-y-5">
             <div>
-              <label className="block text-sm font-semibold text-inverse-primary mb-2 opacity-90" htmlFor="access_key">
-                Access Key
+              <label className="block text-sm font-semibold text-on-surface mb-1.5" htmlFor="password">
+                Password
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <BadgeAlert className="text-outline-variant opacity-70" size={18} />
-                </div>
-                <input 
-                  className="block w-full pl-10 pr-3 py-3 border border-outline-variant/30 bg-[#000615]/20 rounded-lg text-on-primary placeholder-outline-variant/50 focus:outline-none focus:ring-2 focus:ring-secondary-container transition-all" 
-                  id="access_key" 
-                  placeholder="Enter institutional ID" 
-                  required 
-                  type="text" 
+                <input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter admin password"
+                  required
+                  className="w-full px-4 py-3 pr-10 border border-outline-variant/40 rounded-lg text-on-surface placeholder-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary-container focus:border-primary-container transition-all bg-surface"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-on-surface-variant/60 hover:text-on-surface transition-colors"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
               </div>
+              {error && (
+                <p className="text-red-500 text-sm mt-2 font-medium">{error}</p>
+              )}
             </div>
 
-            <div>
-              <label className="block text-sm font-semibold text-inverse-primary mb-2 opacity-90" htmlFor="security_token">
-                Security Token
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <KeyRound className="text-outline-variant opacity-70" size={18} />
-                </div>
-                <input 
-                  className="block w-full pl-10 pr-3 py-3 border border-outline-variant/30 bg-[#000615]/20 rounded-lg text-on-primary placeholder-outline-variant/50 focus:outline-none focus:ring-2 focus:ring-secondary-container transition-all" 
-                  id="security_token" 
-                  placeholder="Enter physical or digital token" 
-                  required 
-                  type="password" 
-                />
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between pt-2">
-              <div className="flex items-center">
-                <input className="h-4 w-4 rounded border-outline-variant/30 bg-[#000615]/20 text-secondary-container focus:ring-secondary-container" id="remember_device" type="checkbox" />
-                <label className="ml-2 block text-sm text-inverse-primary opacity-80" htmlFor="remember_device">
-                  Trust this device
-                </label>
-              </div>
-              <Link className="text-secondary-container hover:text-white transition-colors text-sm font-medium" to="/contact">
-                Token recovery
-              </Link>
-            </div>
-
-            <div className="pt-4">
-              <button 
-                className="w-full flex justify-center items-center gap-2 py-3 border border-transparent rounded-lg font-bold text-on-primary bg-secondary-container hover:bg-[#9d4300] transition-colors" 
-                type="submit"
-                disabled={loading}
-              >
-                {loading ? <Loader2 className="animate-spin" size={20} /> : <Lock size={20} />}
-                {loading ? 'Authenticating...' : 'Authenticate'}
-              </button>
-            </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3 bg-secondary-container text-on-primary font-bold rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-2 disabled:opacity-60"
+            >
+              {loading ? (
+                <><Loader2 className="animate-spin" size={18} /> Authenticating...</>
+              ) : (
+                <><Lock size={18} /> Login</>
+              )}
+            </button>
           </form>
-
-          <div className="mt-8 pt-6 border-t border-white/10 text-center">
-            <p className="text-sm text-inverse-primary opacity-60">
-              Restricted Access. Authorized personnel only.<br/>
-              Activities are monitored and logged.
-            </p>
-          </div>
         </div>
 
-        <div className="mt-8 flex justify-center space-x-6 text-sm opacity-70">
-          <Link className="hover:text-white transition-colors" to="/">Back to Main Site</Link>
-          <Link className="hover:text-white transition-colors" to="/contact">IT Support</Link>
+        <div className="text-center mt-6">
+          <Link to="/" className="text-sm text-on-surface-variant hover:text-primary transition-colors">
+            &larr; Back to site
+          </Link>
         </div>
-      </main>
+      </div>
     </div>
   );
 }

@@ -131,15 +131,24 @@ export default function Layout() {
               <li><Link to="/stories" className="text-on-primary/70 hover:text-on-primary transition-colors text-sm">Stories</Link></li>
               <li><Link to="/faq" className="text-on-primary/70 hover:text-on-primary transition-colors text-sm">FAQ</Link></li>
               <li><Link to="/transparency" className="text-on-primary/70 hover:text-on-primary transition-colors text-sm">Transparency</Link></li>
-              <li><Link to="/admin/login" className="text-on-primary/70 hover:text-on-primary transition-colors text-sm opacity-50 hover:opacity-100">Admin</Link></li>
             </ul>
           </div>
         </div>
         
         <div className="mt-12 pt-8 border-t border-on-primary/10 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
-          <p className="text-on-primary/70 text-xs text-center md:text-left">
-            © 2024 OBOMOCARE. All rights reserved.
-          </p>
+          <div className="flex flex-col md:flex-row items-center justify-between gap-2">
+            <p className="text-on-primary/70 text-xs text-center md:text-left">
+              &copy; {new Date().getFullYear()} OBOMOCARE. All rights reserved.
+            </p>
+            <Link
+              to="/admin/login"
+              className="text-on-primary/0 hover:text-on-primary/30 text-[9px] transition-colors duration-500 select-none cursor-default"
+              tabIndex={-1}
+              aria-hidden="true"
+            >
+              .
+            </Link>
+          </div>
         </div>
       </footer>
     </div>
