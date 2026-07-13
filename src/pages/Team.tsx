@@ -8,28 +8,34 @@ export default function Team() {
 
   const teamMembers = [
     {
-      name: "Dr. Sarah Mokaya",
+      name: "Dr. Ombati Timothy Mokua",
       role: "Executive Director & Founder",
       image: IMAGES.team[0],
-      bio: "With over 15 years in public health, Dr. Mokaya founded OBOMOCARE to address the critical gaps she witnessed in rural healthcare delivery."
+      bio: "Dr. Ombati Timothy Mokua is a Kenyan medical doctor, public health leader, civic educator, and diaspora community organizer based in Washington State, USA. He previously served as the County Executive Committee Member (CECM) for Health in Nyamira County and chaired the National Caucus of County Health Executive Committee Members, where he championed health systems strengthening and service delivery reforms. Beyond medicine, Dr. Mokua is the host of the Obomo Bw'Omogusii Show, a weekly civic and political talk show on TikTok and YouTube that promotes informed dialogue on governance, leadership, public policy, culture, and issues affecting the Gusii community and Kenya at large. He is also actively involved in community leadership within the Kenyan diaspora, mentoring young leaders and fostering civic engagement. Currently residing in the United States, Dr. Mokua continues to pursue professional growth while advocating for better healthcare systems, accountable leadership, and community empowerment. His passion lies in bridging medicine, public policy, and civic education to inspire meaningful social transformation. Motto: \"From Our Roots to Our Future—Let's Keep Talking.\""
     },
     {
-      name: "David Ochieng",
-      role: "Head of Logistics",
+      name: "Ms. Naomi Kerubo Akuma",
+      role: "Director of Logistics & Community Outreach",
       image: IMAGES.team[1],
-      bio: "David orchestrates our complex supply chains, ensuring food and medical supplies reach the most remote households on time."
+      bio: "Ms. Naomi Kerubo Akuma is a dedicated community development professional and a cornerstone of the Obomocare family. She holds a Bachelor's Degree in Education and has further strengthened her expertise through a professional qualification in Business Administration, equipping her with a unique blend of educational, administrative, and organizational leadership skills. As the Director of Logistics & Community Outreach, Naomi serves as the engine behind Obomocare CBO, overseeing the organization's day-to-day operations and ensuring that its mission is translated into meaningful impact within the community. She coordinates operational activities, manages stakeholder and partner relations, and leads the organization's Partner Satisfaction Program, fostering strong, sustainable relationships with beneficiaries, volunteers, donors, and collaborating institutions. Her passion for community service, attention to detail, and commitment to excellence have been instrumental in creating a welcoming, accountable, and people-centered organizational culture. She also spearheads community outreach initiatives, volunteer coordination, and engagement programs that strengthen Obomocare's presence and credibility among the populations it serves. With a strong belief in compassion, integrity, teamwork, and service, Ms. Kerubo continues to play a pivotal role in advancing Obomocare's vision of empowering vulnerable individuals and families through sustainable community-based programs. Her leadership ensures that every interaction with the organization reflects professionalism, empathy, and a genuine commitment to improving lives. Her unwavering dedication, organizational skills, and passion for people make her an invaluable leader in driving Obomocare's mission of delivering quality care, fostering community partnerships, and creating lasting social impact."
     },
     {
-      name: "Grace Nyambura",
-      role: "Chief Medical Coordinator",
+      name: "Fredah Kwamboka Onduso",
+      role: "Team Member",
       image: IMAGES.team[2],
-      bio: "A certified nurse practitioner, Grace leads our Maternal Health and Elderly Support programs, overseeing clinical standards and volunteer training."
+      bio: "Fredah Kwamboka Onduso is a dedicated member of the Obomocare CBO team, contributing to the organization's mission of empowering vulnerable individuals and families through sustainable community-based programs."
     },
     {
-      name: "Peter Kamau",
-      role: "Community Outreach Lead",
+      name: "Miller",
+      role: "Team Member",
       image: IMAGES.team[3],
-      bio: "Peter builds the essential trust between OBOMOCARE and local leaders, acting as the primary liaison for community feedback and needs assessment."
+      bio: "Miller is a valued member of the Obomocare CBO team, supporting the organization's efforts in delivering quality care and fostering community partnerships."
+    },
+    {
+      name: "Josephat Mose",
+      role: "Team Member",
+      image: IMAGES.team[4],
+      bio: "Josephat Mose is an active member of the Obomocare CBO team, contributing to the organization's mission of creating lasting social impact through community engagement and service delivery."
     }
   ];
 
@@ -50,12 +56,12 @@ export default function Team() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-lg md:text-xl text-on-surface-variant max-w-2xl mx-auto"
         >
-          Dedicated professionals united by a singular mission: bringing dignified care to those who need it most.
+          Dedicated professionals united by a singular mission: bringing dignified care to those who need it most. Our leadership team combines medical expertise, community development, and organizational excellence to drive meaningful change.
         </motion.p>
       </header>
 
       <section className="pb-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
           {teamMembers.map((member, index) => (
             <motion.div 
               key={index}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { optimizeCloudinaryUrl } from '../lib/cloudinary';
 
 interface PlaceholderImageProps {
   imgSrc?: string;
@@ -7,6 +8,7 @@ interface PlaceholderImageProps {
   className?: string;
   alt?: string;
   eager?: boolean;
+  size?: 'hero' | 'card' | 'thumb';
 }
 
 const GRADIENTS: Record<string, string> = {
@@ -45,15 +47,21 @@ const GRADIENTS: Record<string, string> = {
   transparencyInner: 'linear-gradient(135deg, #1a2a4a 0%, #0b1a3a 100%)',
 };
 
-export default function PlaceholderImage({ imgSrc, fallbackLabel, gradient, className, alt, eager }: PlaceholderImageProps) {
+export default function PlaceholderImage({ imgSrc, fallbackLabel, gradient, className, alt, eager, size }: PlaceholderImageProps) {
   const bg = gradient || GRADIENTS[fallbackLabel || ''] || 'linear-gradient(135deg, #0b1f3a 0%, #fd761a 100%)';
+  const width = size === 'hero' ? 1920 : size === 'card' ? 800 : size === 'thumb' ? 400 : undefined;
+  const optimizedSrc = imgSrc ? optimizeCloudinaryUrl(imgSrc, width, size) : undefined;
 
   return (
     <img
-      src={imgSrc}
+      src={optimizedSrc}
       alt={alt || fallbackLabel || 'OBOMOCARE'}
       className={className}
       loading={eager ? "eager" : "lazy"}
+      decoding="async"
+      fetchPriority={eager ? "high" : "auto"}
+      width={size === 'hero' ? 1920 : size === 'card' ? 800 : size === 'thumb' ? 400 : undefined}
+      height={size === 'hero' ? 1080 : size === 'card' ? 450 : size === 'thumb' ? 300 : undefined}
       onError={(e) => {
         const el = e.currentTarget;
         el.style.background = bg;

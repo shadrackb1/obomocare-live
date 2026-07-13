@@ -32,12 +32,14 @@ export default function Layout() {
           </Link>
           
           <div className="hidden md:flex items-center space-x-6">
-            <NavLink to="/about">About</NavLink>
-            <NavLink to="/programs">Programs</NavLink>
-            <NavLink to="/impact">Impact</NavLink>
-            <NavLink to="/stories">Stories</NavLink>
-            <NavLink to="/gallery">Gallery</NavLink>
-            <NavLink to="/team">Team</NavLink>
+              <NavLink to="/about">About</NavLink>
+              <NavLink to="/programs">Programs</NavLink>
+              <NavLink to="/impact">Impact</NavLink>
+              <NavLink to="/stories">Stories</NavLink>
+              <NavLink to="/gallery">Gallery</NavLink>
+              <NavLink to="/team">Team</NavLink>
+              <NavLink to="/community-engagement">Community</NavLink>
+              <NavLink to="/contact">Contact</NavLink>
           </div>
 
           <div className="hidden md:block">
@@ -70,6 +72,7 @@ export default function Layout() {
               <NavLink to="/stories"><div className="py-2.5">Stories</div></NavLink>
               <NavLink to="/gallery"><div className="py-2.5">Gallery</div></NavLink>
               <NavLink to="/team"><div className="py-2.5">Our Team</div></NavLink>
+              <NavLink to="/community-engagement"><div className="py-2.5">Community Engagement</div></NavLink>
               <NavLink to="/news"><div className="py-2.5">News</div></NavLink>
               <NavLink to="/volunteer"><div className="py-2.5">Volunteer</div></NavLink>
               <NavLink to="/partners"><div className="py-2.5">Partners</div></NavLink>
@@ -107,6 +110,7 @@ export default function Layout() {
               <li><Link to="/about" className="text-on-primary/70 hover:text-on-primary transition-colors text-sm">About Us</Link></li>
               <li><Link to="/programs" className="text-on-primary/70 hover:text-on-primary transition-colors text-sm">Programs</Link></li>
               <li><Link to="/team" className="text-on-primary/70 hover:text-on-primary transition-colors text-sm">Our Team</Link></li>
+              <li><Link to="/community-engagement" className="text-on-primary/70 hover:text-on-primary transition-colors text-sm">Community Engagement</Link></li>
               <li><Link to="/partners" className="text-on-primary/70 hover:text-on-primary transition-colors text-sm">Partners</Link></li>
             </ul>
           </div>

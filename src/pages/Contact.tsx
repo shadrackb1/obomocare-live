@@ -36,14 +36,14 @@ export default function Contact() {
                   <div className="bg-surface-variant p-4 rounded-full text-secondary-container"><MapPin size={24} /></div>
                   <div>
                     <h3 className="font-semibold text-sm text-on-surface-variant uppercase tracking-wider mb-2">Headquarters</h3>
-                    <p className="text-base text-on-surface">Gusii Region, Kenya<br/>Serving local communities</p>
+                    <p className="text-base text-on-surface">Ekerubo, Kisii-Nyamira Road<br/>(besides Ekerubo SDA Church)<br/>P.O. Box 66, 40506, Kebirigo, Nyamira</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <div className="bg-surface-variant p-4 rounded-full text-secondary-container"><Mail size={24} /></div>
                   <div>
                     <h3 className="font-semibold text-sm text-on-surface-variant uppercase tracking-wider mb-2">Email Us</h3>
-                    <a className="text-base text-on-surface hover:text-secondary-container transition-colors" href="mailto:obomocare@gmail.com">obomocare@gmail.com</a>
+                    <a className="text-base text-on-surface hover:text-secondary-container transition-colors" href="mailto:info@obomocare.com">info@obomocare.com</a>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">

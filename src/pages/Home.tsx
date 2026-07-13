@@ -19,6 +19,7 @@ export default function Home() {
             alt="OBOMOCARE community gathering at sunset"
             className="w-full h-full object-cover object-center scale-105"
             eager
+            size="hero"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60"></div>
 
@@ -31,7 +32,7 @@ export default function Home() {
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }} className="font-body-lg text-lg md:text-xl text-inverse-on-surface mb-8 max-w-2xl mx-auto opacity-90">We bring aid to the households formal systems keep missing in Kisii and Nyamira.</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }} className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
             <Link to="/impact" className="relative overflow-hidden group bg-secondary-container text-on-primary font-bold px-8 py-4 rounded transition-all shadow-sm w-full sm:w-auto text-center"><span className="relative z-10">See Our Impact</span><div className="absolute inset-0 h-full w-full scale-0 rounded-full transition-all duration-300 ease-out group-hover:scale-[2] bg-white/20"></div></Link>
-            <Link to="/stories/1" className="border border-on-primary text-on-primary font-bold px-8 py-4 rounded hover:bg-white/10 transition-all w-full sm:w-auto text-center backdrop-blur-sm">Our Story</Link>
+            <Link to="/community-engagement" className="border border-on-primary text-on-primary font-bold px-8 py-4 rounded hover:bg-white/10 transition-all w-full sm:w-auto text-center backdrop-blur-sm">Community Engagement</Link>
           </motion.div>
         </div>
       </section>
@@ -121,31 +122,31 @@ export default function Home() {
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="rounded-xl overflow-hidden relative h-64 md:h-80 group col-span-1">
-            <PlaceholderImage imgSrc={IMAGES.foodSupportDetail} fallbackLabel="foodSupportDetail" alt="Food distribution in progress" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
+            <PlaceholderImage imgSrc={IMAGES.foodSupportDetail} fallbackLabel="foodSupportDetail" alt="Food distribution in progress" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" size="card" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
               <span className="text-white text-sm font-semibold">Food Distribution</span>
             </div>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="rounded-xl overflow-hidden relative h-64 md:h-80 group col-span-1 md:row-span-2">
-            <PlaceholderImage imgSrc={IMAGES.volunteerCorpsDetail} fallbackLabel="volunteerCorpsDetail" alt="Volunteers in training" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
+            <PlaceholderImage imgSrc={IMAGES.volunteerCorpsDetail} fallbackLabel="volunteerCorpsDetail" alt="Volunteers in training" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" size="card" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
               <span className="text-white text-sm font-semibold">Volunteer Training</span>
             </div>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }} className="rounded-xl overflow-hidden relative h-64 md:h-80 group col-span-1">
-            <PlaceholderImage imgSrc={IMAGES.maternalHealthDetail} fallbackLabel="maternalHealthDetail" alt="Maternal health outreach" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
+            <PlaceholderImage imgSrc={IMAGES.maternalHealthDetail} fallbackLabel="maternalHealthDetail" alt="Maternal health outreach" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" size="card" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
               <span className="text-white text-sm font-semibold">Maternal Health</span>
             </div>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }} className="rounded-xl overflow-hidden relative h-64 md:h-80 group col-span-1">
-            <PlaceholderImage imgSrc={IMAGES.story1} fallbackLabel="story1" alt="Community gathering" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
+            <PlaceholderImage imgSrc={IMAGES.story1} fallbackLabel="story1" alt="Community gathering" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" size="card" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
               <span className="text-white text-sm font-semibold">Community Impact</span>
             </div>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.5 }} className="rounded-xl overflow-hidden relative h-64 md:h-80 group col-span-1">
-            <PlaceholderImage imgSrc={IMAGES.elderlySupportDetail} fallbackLabel="elderlySupportDetail" alt="Elderly care visit" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
+            <PlaceholderImage imgSrc={IMAGES.elderlySupportDetail} fallbackLabel="elderlySupportDetail" alt="Elderly care visit" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" size="card" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
               <span className="text-white text-sm font-semibold">Elderly Care</span>
             </div>

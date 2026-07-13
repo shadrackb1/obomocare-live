@@ -51,3 +51,19 @@ export function getCloudinaryUrl(
   }
   return `${base}/${publicId}`;
 }
+
+export function optimizeCloudinaryUrl(
+  url: string,
+  width?: number,
+  quality?: 'hero' | 'card' | 'thumb'
+): string {
+  if (!url || !url.includes('cloudinary.com')) return url;
+  const parts = url.split('/upload/');
+  if (parts.length !== 2) return url;
+  const base = parts[0] + '/upload/';
+  const rest = parts[1];
+  const q = quality === 'hero' ? 'q_85' : quality === 'card' ? 'q_75' : quality === 'thumb' ? 'q_70' : 'q_auto';
+  const transforms = ['f_auto', 'dpr_auto', q];
+  if (width) transforms.push(`w_${width}`);
+  return `${base}${transforms.join(',')}/${rest}`;
+}

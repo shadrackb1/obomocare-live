@@ -22,6 +22,7 @@ import Gallery from './pages/Gallery';
 import Volunteer from './pages/Volunteer';
 import Partners from './pages/Partners';
 import Team from './pages/Team';
+import CommunityEngagement from './pages/CommunityEngagement';
 import FAQ from './pages/FAQ';
 import News from './pages/News';
 import AdminLogin from './pages/AdminLogin';
@@ -52,6 +53,7 @@ export default function App() {
           <Route path="volunteer" element={<Volunteer />} />
           <Route path="partners" element={<Partners />} />
           <Route path="team" element={<Team />} />
+          <Route path="community-engagement" element={<CommunityEngagement />} />
           <Route path="faq" element={<FAQ />} />
           <Route path="news" element={<News />} />
         </Route>
