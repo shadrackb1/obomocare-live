@@ -59,11 +59,11 @@ export const IMAGES = {
   transparencyInner: `${C}/obomocare/annnyn2adckmg2zlcnru.jpg`,
 
   team: [
-    `${C}/obomocare/t9xfjpw6ckstyfiielzp.jpg`,
+    `${C}/obomocare/b7ohol0rtxwphkq4k11g.jpg`,
+    `${C}/obomocare/ld0yogdnomn8gk1hz9hu.jpg`,
     `${C}/obomocare/nznbl1m0ifafectsblm9.jpg`,
-    `${C}/obomocare/jp2ec9qb586myxhpc9a0.jpg`,
+    `${C}/obomocare/h5z3b5moakv6ybd2j8be.jpg`,
     `${C}/obomocare/nboxe4fpok14suaohtjr.jpg`,
-    `${C}/obomocare/placeholder.jpg`,
     `${C}/obomocare/placeholder_meeting1.jpg`,
     `${C}/obomocare/placeholder_meeting2.jpg`,
   ],
