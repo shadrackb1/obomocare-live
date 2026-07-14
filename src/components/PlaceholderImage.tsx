@@ -45,6 +45,9 @@ const GRADIENTS: Record<string, string> = {
   volunteer:       'linear-gradient(135deg, #2a1a3a 0%, #1a0b2a 100%)',
   transparency:    'linear-gradient(135deg, #0b1f3a 0%, #1a3a5c 100%)',
   transparencyInner: 'linear-gradient(135deg, #1a2a4a 0%, #0b1a3a 100%)',
+
+  meeting1: 'linear-gradient(135deg, #1a2a4a 0%, #2a3a5c 60%, #fd761a 100%)',
+  meeting2: 'linear-gradient(135deg, #0d2b4e 0%, #1e4a6e 60%, #fd761a 100%)',
 };
 
 export default function PlaceholderImage({ imgSrc, fallbackLabel, gradient, className, alt, eager, size }: PlaceholderImageProps) {

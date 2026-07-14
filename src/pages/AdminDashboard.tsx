@@ -79,11 +79,12 @@ const PHOTO_SECTIONS: PhotoSection[] = [
   },
 ];
 
-function PhotoSlotCard({ slot, currentUrl, onSave, onDelete }: {
+function PhotoSlotCard({ slot, currentUrl, onSave, onDelete, ..._rest }: {
   slot: PhotoSlot;
   currentUrl: string | null;
   onSave: (slotId: string, url: string) => Promise<void>;
   onDelete: (slotId: string) => Promise<void>;
+  [key: string]: unknown;
 }) {
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);

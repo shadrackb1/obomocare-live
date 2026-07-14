@@ -1,4 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
+import { ErrorBoundary } from './components/ErrorBoundary';
+import { Preloader } from './components/Loader';
+import { GoogleAnalytics } from './lib/analytics';
 import { ImageProvider } from './components/ImageProvider';
 import Layout from './components/Layout';
 import AdminLayout from './components/AdminLayout';
@@ -29,42 +33,62 @@ import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminMedia from './pages/AdminMedia';
 
+const GA_ID = import.meta.env.VITE_GA_MEASUREMENT_ID;
+
 export default function App() {
   return (
-    <BrowserRouter>
-      <ImageProvider>
-        <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="about" element={<About />} />
-          <Route path="programs" element={<Programs />} />
-          <Route path="programs/maternal-health" element={<ProgramDetail />} />
-          <Route path="programs/food-support" element={<FoodSupport />} />
-          <Route path="programs/household-care" element={<HouseholdCare />} />
-          <Route path="programs/volunteer-corps" element={<VolunteerCorps />} />
-          <Route path="programs/elderly-support" element={<ElderlySupport />} />
-          <Route path="impact" element={<Impact />} />
-          <Route path="stories" element={<Stories />} />
-          <Route path="stories/:id" element={<StoryDetail />} />
-          <Route path="get-involved" element={<GetInvolved />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="transparency" element={<Transparency />} />
-          <Route path="gallery" element={<Gallery />} />
-          <Route path="volunteer" element={<Volunteer />} />
-          <Route path="partners" element={<Partners />} />
-          <Route path="team" element={<Team />} />
-          <Route path="community-engagement" element={<CommunityEngagement />} />
-          <Route path="faq" element={<FAQ />} />
-          <Route path="news" element={<News />} />
-        </Route>
-        
-        <Route path="/admin/login" element={<AdminLogin />} />
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route path="dashboard" element={<AdminDashboard />} />
-          <Route path="media" element={<AdminMedia />} />
-        </Route>
-        </Routes>
-      </ImageProvider>
-    </BrowserRouter>
+    <HelmetProvider>
+      <ErrorBoundary>
+        <Preloader />
+        {GA_ID && <GoogleAnalytics measurementId={GA_ID} />}
+        <BrowserRouter>
+          <ImageProvider>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route index element={<Home />} />
+                <Route path="about" element={<About />} />
+                <Route path="programs" element={<Programs />} />
+                <Route path="programs/maternal-health" element={<ProgramDetail />} />
+                <Route path="programs/food-support" element={<FoodSupport />} />
+                <Route
+                  path="programs/household-care"
+                  element={<HouseholdCare />}
+                />
+                <Route
+                  path="programs/volunteer-corps"
+                  element={<VolunteerCorps />}
+                />
+                <Route
+                  path="programs/elderly-support"
+                  element={<ElderlySupport />}
+                />
+                <Route path="impact" element={<Impact />} />
+                <Route path="stories" element={<Stories />} />
+                <Route path="stories/:id" element={<StoryDetail />} />
+                <Route path="get-involved" element={<GetInvolved />} />
+                <Route path="contact" element={<Contact />} />
+                <Route path="transparency" element={<Transparency />} />
+                <Route path="gallery" element={<Gallery />} />
+                <Route path="volunteer" element={<Volunteer />} />
+                <Route path="partners" element={<Partners />} />
+                <Route path="team" element={<Team />} />
+                <Route
+                  path="community-engagement"
+                  element={<CommunityEngagement />}
+                />
+                <Route path="faq" element={<FAQ />} />
+                <Route path="news" element={<News />} />
+              </Route>
+
+              <Route path="/admin/login" element={<AdminLogin />} />
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route path="dashboard" element={<AdminDashboard />} />
+                <Route path="media" element={<AdminMedia />} />
+              </Route>
+            </Routes>
+          </ImageProvider>
+        </BrowserRouter>
+      </ErrorBoundary>
+    </HelmetProvider>
   );
 }

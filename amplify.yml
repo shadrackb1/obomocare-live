@@ -1,0 +1,22 @@
+service: obomocare-web
+
+variables:
+  NODE_VERSION: '20'
+  BUILD_FLAG: production
+
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        - npm run lint
+        - npm run build
+  artifacts:
+    baseDirectory: dist
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*

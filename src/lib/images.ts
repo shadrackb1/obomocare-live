@@ -64,7 +64,7 @@ export const IMAGES = {
     `${C}/obomocare/nznbl1m0ifafectsblm9.jpg`,
     `${C}/obomocare/h5z3b5moakv6ybd2j8be.jpg`,
     `${C}/obomocare/nboxe4fpok14suaohtjr.jpg`,
-    `${C}/obomocare/placeholder_meeting1.jpg`,
-    `${C}/obomocare/placeholder_meeting2.jpg`,
+    `${C}/obomocare/ld0yogdnomn8gk1hz9hu.jpg`,
+    `${C}/obomocare/nboxe4fpok14suaohtjr.jpg`,
   ],
 };

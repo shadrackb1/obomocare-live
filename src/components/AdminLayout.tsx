@@ -104,7 +104,7 @@ export default function AdminLayout() {
   );
 }
 
-function SidebarLink({ to, icon, children, onClick }: { to: string; icon: React.ReactNode; children: React.ReactNode; onClick?: () => void }) {
+function SidebarLink({ to, icon, children, onClick, ..._rest }: { to: string; icon: React.ReactNode; children: React.ReactNode; onClick?: () => void; [key: string]: unknown }) {
   const location = useLocation();
   const isActive = location.pathname === to;
   
