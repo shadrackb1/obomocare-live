@@ -1,9 +1,9 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import { defineConfig } from 'vite';
+import { defineConfig, type UserConfig } from 'vite';
 
-export default defineConfig(() => {
+export default defineConfig((): UserConfig => {
   const isProd = process.env.NODE_ENV === 'production' || process.env.BUILD === 'true';
 
   return {
@@ -26,18 +26,7 @@ export default defineConfig(() => {
     build: {
       outDir: 'dist',
       sourcemap: !isProd,
-      minify: isProd ? 'terser' : 'esbuild',
-      terserOptions: isProd
-        ? {
-            compress: {
-              drop_console: true,
-              drop_debugger: true,
-            },
-            format: {
-              comments: /@license|@preserve/,
-            },
-          }
-        : undefined,
+      minify: 'esbuild',
       rollupOptions: {
         output: {
           manualChunks: {

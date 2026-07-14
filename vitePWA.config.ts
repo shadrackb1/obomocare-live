@@ -1,6 +1,4 @@
-import { defineConfig } from 'vite-plugin-pwa/config';
-
-export default defineConfig({
+export default {
   registerType: 'autoUpdate',
   includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
   manifest: {
@@ -48,4 +46,4 @@ export default defineConfig({
       },
     ],
   },
-});
+};
