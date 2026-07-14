@@ -12,17 +12,7 @@ export default function GetInvolved() {
       <section className="relative w-full min-h-[60vh] flex items-center justify-center overflow-hidden -mt-20">
         <div className="absolute inset-0 z-0">
           <PlaceholderImage imgSrc={IMAGES.getInvolvedHero} fallbackLabel="getInvolvedHero" alt="Hero Background" className="w-full h-full object-cover scale-105" eager />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60"></div>
-          {/* Animated Blob */}
-          <motion.div 
-            animate={{ 
-              scale: [1, 1.2, 1],
-              x: [0, 50, 0],
-              y: [0, -30, 0],
-            }}
-            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-            className="absolute top-1/4 left-1/4 w-96 h-96 bg-secondary-container/30 rounded-full mix-blend-screen filter blur-[100px] opacity-60"
-          />
+
         </div>
         <div className="relative z-10 text-center px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto py-section-gap pt-32">
           <motion.h1 

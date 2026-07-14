@@ -3,49 +3,112 @@ import { Link } from 'react-router-dom';
 import CTA from '../components/CTA';
 import { useImages } from '../components/ImageProvider';
 import PlaceholderImage from '../components/PlaceholderImage';
-
-const leaders = [
-  {
-    name: "Dr. Ombati Timothy Mokua",
-    role: "Executive Director & Founder",
-    image: "team_0",
-    bio: [
-      "Dr. Ombati Timothy Mokua is a Kenyan medical doctor, public health leader, civic educator, and diaspora community organizer based in Washington State, USA. He previously served as the County Executive Committee Member (CECM) for Health in Nyamira County and chaired the National Caucus of County Health Executive Committee Members, where he championed health systems strengthening and service delivery reforms.",
-      "Beyond medicine, Dr. Mokua is the host of the Obomo Bw'Omogusii Show, a weekly civic and political talk show on TikTok and YouTube that promotes informed dialogue on governance, leadership, public policy, culture, and issues affecting the Gusii community and Kenya at large. He is also actively involved in community leadership within the Kenyan diaspora, mentoring young leaders and fostering civic engagement.",
-      "Currently residing in the United States, Dr. Mokua continues to pursue professional growth while advocating for better healthcare systems, accountable leadership, and community empowerment. His passion lies in bridging medicine, public policy, and civic education to inspire meaningful social transformation.",
-    ],
-    motto: "From Our Roots to Our Future\u2014Let\u2019s Keep Talking.",
-  },
-  {
-    name: "Ms. Naomi Kerubo Akuma",
-    role: "Director of Logistics & Community Outreach",
-    image: "team_1",
-    bio: [
-      "Ms. Naomi Kerubo Akuma is a dedicated community development professional and a cornerstone of the Obomocare family. She holds a Bachelor\u2019s Degree in Education and has further strengthened her expertise through a professional qualification in Business Administration, equipping her with a unique blend of educational, administrative, and organizational leadership skills.",
-      "As the Director of Logistics & Community Outreach, Naomi serves as the engine behind Obomocare CBO, overseeing the organization\u2019s day-to-day operations and ensuring that its mission is translated into meaningful impact within the community. She coordinates operational activities, manages stakeholder and partner relations, and leads the organization\u2019s Partner Satisfaction Program, fostering strong, sustainable relationships with beneficiaries, volunteers, donors, and collaborating institutions.",
-      "Her passion for community service, attention to detail, and commitment to excellence have been instrumental in creating a welcoming, accountable, and people-centered organizational culture. She also spearheads community outreach initiatives, volunteer coordination, and engagement programs that strengthen Obomocare\u2019s presence and credibility among the populations it serves.",
-      "With a strong belief in compassion, integrity, teamwork, and service, Ms. Kerubo continues to play a pivotal role in advancing Obomocare\u2019s vision of empowering vulnerable individuals and families through sustainable community-based programs. Her leadership ensures that every interaction with the organization reflects professionalism, empathy, and a genuine commitment to improving lives.",
-      "Her unwavering dedication, organizational skills, and passion for people make her an invaluable leader in driving Obomocare\u2019s mission of delivering quality care, fostering community partnerships, and creating lasting social impact.",
-    ],
-  },
-];
-
-const members = [
-  { name: "Fredah Kwamboka Onduso", role: "Team Member", image: "team_2" },
-  { name: "Cecil Miller", role: "Team Member", image: "team_3" },
-  { name: "Josephat Mose", role: "Team Member", image: "team_4" },
-];
+import { getAllTeamMembers, type TeamMember } from '../lib/teamMembers';
+import { getMediaLibrary } from '../lib/siteImages';
+import { useState, useEffect } from 'react';
 
 export default function Team() {
   const IMAGES = useImages();
+  const [members, setMembers] = useState<TeamMember[]>([]);
+  const [media, setMedia] = useState<Array<{ slot: string; url: string; label: string }>>([]);
+  const [loading, setLoading] = useState(true);
 
-  const getImage = (slotId: string): string => {
-    if (slotId.startsWith('team_')) {
+  useEffect(() => {
+    const load = async () => {
+      const [team, imgs] = await Promise.all([getAllTeamMembers(), getMediaLibrary()]);
+      const sorted = team.sort((a, b) => a.order - b.order);
+      setMembers(sorted);
+      setMedia(imgs.map((i) => ({ slot: i.slot, url: i.url, label: i.label })));
+      setLoading(false);
+    };
+    load();
+  }, []);
+
+  const getImageUrl = (slotId: string, fallback: string): string => {
+    if (slotId) {
+      const m = media.find((im) => im.slot === slotId);
+      if (m) return m.url;
       const idx = parseInt(slotId.split('_')[1], 10);
-      if (Array.isArray(IMAGES.team) && IMAGES.team[idx]) return IMAGES.team[idx];
+      if (!isNaN(idx) && Array.isArray(IMAGES.team) && IMAGES.team[idx]) return IMAGES.team[idx];
     }
-    return IMAGES.team[0];
+    return fallback;
   };
+
+  const leaders = members.filter((m) => m.isLeader);
+  const otherMembers = members.filter((m) => !m.isLeader);
+
+  const renderLeader = (leader: TeamMember, index: number) => (
+    <motion.div
+      key={leader.id}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.15 }}
+      className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-8 lg:gap-12 bg-white rounded-2xl border border-outline-variant/20 overflow-hidden shadow-sm`}
+    >
+      <div className="lg:w-2/5 flex-shrink-0">
+        <div className="aspect-[3/4] w-full overflow-hidden">
+          <PlaceholderImage
+            imgSrc={getImageUrl(leader.imageSlot, IMAGES.team[0])}
+            fallbackLabel={leader.name}
+            alt={leader.name}
+            className="w-full h-full object-cover"
+          />
+        </div>
+      </div>
+      <div className="flex-1 p-8 md:p-10 flex flex-col justify-center">
+        <h2 className="font-display text-2xl md:text-3xl font-bold text-primary mb-1">{leader.name}</h2>
+        <p className="text-secondary-container font-bold uppercase tracking-wider text-sm mb-6">{leader.role}</p>
+        {leader.bio && (
+          <div className="space-y-4">
+            {leader.bio.split('\n').filter(Boolean).map((paragraph, i) => (
+              <p key={i} className="text-on-surface-variant text-sm leading-relaxed">{paragraph}</p>
+            ))}
+          </div>
+        )}
+        {leader.motto && (
+          <div className="mt-6 pt-4 border-t border-outline-variant/20">
+            <p className="text-primary font-display text-lg italic">&ldquo;{leader.motto}&rdquo;</p>
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
+
+  const renderMember = (member: TeamMember, index: number) => (
+    <motion.div
+      key={member.id}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1 }}
+      className="bg-white rounded-xl overflow-hidden border border-outline-variant/20 shadow-sm group"
+    >
+      <div className="aspect-square w-full overflow-hidden">
+        <PlaceholderImage
+          imgSrc={getImageUrl(member.imageSlot, IMAGES.team[0])}
+          fallbackLabel={member.name}
+          alt={member.name}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        />
+      </div>
+      <div className="p-6 text-center">
+        <h3 className="font-display text-xl font-bold text-primary">{member.name}</h3>
+        <p className="text-secondary-container text-sm font-bold uppercase tracking-wider mt-1">{member.role}</p>
+      </div>
+    </motion.div>
+  );
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-32">
+        <div className="w-8 h-8 border-2 border-secondary-container border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  const hasLeaders = leaders.length > 0;
+  const hasMembers = otherMembers.length > 0;
 
   return (
     <>
@@ -64,85 +127,38 @@ export default function Team() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-lg md:text-xl text-on-surface-variant max-w-2xl mx-auto"
         >
-          Dedicated professionals united by a singular mission: bringing dignified care to those who need it most. Our leadership team combines medical expertise, community development, and organizational excellence to drive meaningful change.
+          Dedicated professionals united by a singular mission: bringing dignified care to those who need it most.
         </motion.p>
       </header>
 
-      {/* Leadership Profiles */}
-      <section className="pb-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto space-y-12">
-        {leaders.map((leader, index) => (
-          <motion.div
-            key={leader.name}
-            initial={{ opacity: 0, y: 30 }}
+      {hasLeaders && (
+        <section className="pb-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto space-y-12">
+          {leaders.map((leader, index) => renderLeader(leader, index))}
+        </section>
+      )}
+
+      {hasMembers && (
+        <section className="pb-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: index * 0.15 }}
-            className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-8 lg:gap-12 bg-white rounded-2xl border border-outline-variant/20 overflow-hidden shadow-sm`}
+            className="font-display text-2xl md:text-3xl font-bold text-primary-container mb-8 text-center"
           >
-            <div className="lg:w-2/5 flex-shrink-0">
-              <div className="aspect-[3/4] w-full overflow-hidden">
-                <PlaceholderImage
-                  imgSrc={getImage(leader.image)}
-                  fallbackLabel={leader.name}
-                  alt={leader.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-            <div className="flex-1 p-8 md:p-10 flex flex-col justify-center">
-              <h2 className="font-display text-2xl md:text-3xl font-bold text-primary mb-1">{leader.name}</h2>
-              <p className="text-secondary-container font-bold uppercase tracking-wider text-sm mb-6">{leader.role}</p>
-              <div className="space-y-4">
-                {leader.bio.map((paragraph, i) => (
-                  <p key={i} className="text-on-surface-variant text-sm leading-relaxed">{paragraph}</p>
-                ))}
-              </div>
-              {leader.motto && (
-                <div className="mt-6 pt-4 border-t border-outline-variant/20">
-                  <p className="text-primary font-display text-lg italic">&ldquo;{leader.motto}&rdquo;</p>
-                </div>
-              )}
-            </div>
-          </motion.div>
-        ))}
-      </section>
+            Our <span className="text-secondary-container">Team</span>
+          </motion.h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {otherMembers.map((member, index) => renderMember(member, index))}
+          </div>
+        </section>
+      )}
 
-      {/* Other Team Members */}
-      <section className="pb-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="font-display text-2xl md:text-3xl font-bold text-primary-container mb-8 text-center"
-        >
-          Our <span className="text-secondary-container">Team</span>
-        </motion.h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {members.map((member, index) => (
-            <motion.div
-              key={member.name}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-white rounded-xl overflow-hidden border border-outline-variant/20 shadow-sm group"
-            >
-              <div className="aspect-square w-full overflow-hidden">
-                <PlaceholderImage
-                  imgSrc={getImage(member.image)}
-                  fallbackLabel={member.name}
-                  alt={member.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <div className="p-6 text-center">
-                <h3 className="font-display text-xl font-bold text-primary">{member.name}</h3>
-                <p className="text-secondary-container text-sm font-bold uppercase tracking-wider mt-1">{member.role}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
+      {!hasLeaders && !hasMembers && (
+        <section className="pb-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto text-center py-16">
+          <p className="text-on-surface-variant text-lg">No team members configured yet.</p>
+          <p className="text-on-surface-variant text-sm mt-2 opacity-60">Check back soon!</p>
+        </section>
+      )}
 
       {/* Volunteers Banner */}
       <section className="bg-surface-container-low py-16 text-center mb-section-gap">
@@ -159,7 +175,7 @@ export default function Team() {
         >
           <h2 className="font-display text-2xl md:text-3xl font-bold text-on-primary mb-4">Community Engagement</h2>
           <p className="text-on-primary/80 mb-6 max-w-2xl mx-auto">
-            Our team has had the privilege of meeting with Huldah Momanyi, the State Representative for District 38A in Minnesota&apos;s House of Representatives &mdash; the first Kenyan-American to win a state assembly seat in Minnesota.
+            Our team has had the privilege of meeting with Huldah Momanyi, the State Representative for District 38A in Minnesota&apos;s House of Representatives.
           </p>
           <Link
             to="/community-engagement"

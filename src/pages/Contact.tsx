@@ -16,7 +16,7 @@ export default function Contact() {
             className="w-full h-full object-cover scale-105"
             eager
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60"></div>
+          
         </div>
         <div className="relative z-10 text-center px-4 md:px-12 max-w-container-max mx-auto w-full pt-20">
           <h1 className="font-display text-4xl md:text-6xl font-bold text-on-primary mb-6 drop-shadow-lg">Let's Connect.</h1>

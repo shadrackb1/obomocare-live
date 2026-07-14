@@ -31,6 +31,7 @@ import FAQ from './pages/FAQ';
 import News from './pages/News';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
+import AdminTeam from './pages/AdminTeam';
 import AdminMedia from './pages/AdminMedia';
 
 const GA_ID = import.meta.env.VITE_GA_MEASUREMENT_ID;
@@ -81,10 +82,11 @@ export default function App() {
               </Route>
 
               <Route path="/admin/login" element={<AdminLogin />} />
-              <Route path="/admin" element={<AdminLayout />}>
-                <Route path="dashboard" element={<AdminDashboard />} />
-                <Route path="media" element={<AdminMedia />} />
-              </Route>
+  <Route path="/admin" element={<AdminLayout />}>
+    <Route path="dashboard" element={<AdminDashboard />} />
+    <Route path="team" element={<AdminTeam />} />
+    <Route path="media" element={<AdminMedia />} />
+  </Route>
             </Routes>
           </ImageProvider>
         </BrowserRouter>

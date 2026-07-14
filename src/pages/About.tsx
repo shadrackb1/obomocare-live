@@ -18,9 +18,7 @@ export default function About() {
             className="w-full h-full object-cover scale-105"
             eager
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/50"></div>
 
-          <motion.div animate={{ scale: [1, 1.2, 1], x: [0, 50, 0], y: [0, -30, 0] }} transition={{ duration: 15, repeat: Infinity, ease: "linear" }} className="absolute top-1/4 left-1/4 w-96 h-96 bg-secondary-container/30 rounded-full mix-blend-screen filter blur-[100px] opacity-60" />
         </div>
         <div className="relative z-10 text-center px-4 md:px-12 max-w-container-max mx-auto w-full pt-20">
           <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="inline-block px-4 py-1.5 mb-6 text-on-primary border border-on-primary/30 rounded-full font-label-sm text-sm font-semibold backdrop-blur-sm bg-primary/20">OUR STORY</motion.span>

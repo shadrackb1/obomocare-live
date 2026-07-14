@@ -33,7 +33,7 @@ export default function Stories() {
               eager
             />
           </motion.div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+          
         </div>
 
         <div className="relative z-10 w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-16 flex flex-col items-start text-on-primary pt-20">

@@ -17,6 +17,7 @@ export interface SiteImage {
   slot: string;
   url: string;
   label: string;
+  description?: string;
   updatedAt: Timestamp | null;
 }
 

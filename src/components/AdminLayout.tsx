@@ -1,11 +1,12 @@
 import React from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Image, Camera, Users, LogOut, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Image, Camera, Users, LogOut, Menu, X, UserCog } from 'lucide-react';
 import { cn } from '../lib/utils';
 import Logo from './Logo';
 
 const navItems = [
   { to: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { to: '/admin/team', label: 'Team Management', icon: UserCog },
   { to: '/admin/media', label: 'Media Library', icon: Image },
 ];
 

@@ -11,7 +11,7 @@ export default function Programs() {
   return (
     <>
       <section className="py-20 md:py-32 px-4 md:px-12 max-w-container-max mx-auto text-center relative overflow-hidden">
-        <motion.div animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }} transition={{ duration: 8, repeat: Infinity, ease: "linear" }} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-secondary-container/20 rounded-full blur-[100px] pointer-events-none" />
+        
         <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="font-display text-4xl md:text-6xl font-bold text-primary-container mb-8 max-w-4xl mx-auto leading-tight relative z-10">Targeted Interventions.<br/><span className="text-secondary-container">Tangible Results.</span></motion.h1>
         <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="text-lg md:text-xl text-on-surface-variant max-w-2xl mx-auto relative z-10">A comprehensive overview of our 4 service pillars designed to provide holistic support and empower communities through sustainable action.</motion.p>
       </section>

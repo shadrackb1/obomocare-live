@@ -36,8 +36,7 @@ export default function Impact() {
             className="w-full h-full object-cover scale-105"
             eager
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60"></div>
-          <motion.div animate={{ scale: [1, 1.2, 1], x: [0, 50, 0], y: [0, -30, 0] }} transition={{ duration: 15, repeat: Infinity, ease: "linear" }} className="absolute top-1/4 left-1/4 w-96 h-96 bg-secondary-container/30 rounded-full mix-blend-screen filter blur-[100px] opacity-60" />
+
         </div>
         <div className="relative z-10 w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop text-center pt-20">
           <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="inline-block py-1 px-3 rounded-full bg-surface-variant text-on-surface-variant font-semibold text-xs uppercase tracking-wider mb-6 backdrop-blur-sm">Real-time Impact</motion.span>

@@ -17,8 +17,7 @@ export default function ProgramDetail() {
             className="object-cover w-full h-full"
             eager
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60"></div>
-          <motion.div animate={{ scale: [1, 1.2, 1], x: [50, 0, 50], y: [-30, 0, -30] }} transition={{ duration: 15, repeat: Infinity, ease: "linear" }} className="absolute top-1/4 left-1/4 w-96 h-96 bg-secondary-container/30 rounded-full mix-blend-screen filter blur-[100px] opacity-60" />
+
         </div>
         <div className="relative z-10 max-w-container-max mx-auto px-4 md:px-12 w-full text-center md:text-left pt-20">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="max-w-3xl bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-8 md:p-12 shadow-[0_0_40px_rgba(11,31,58,0.2)]">

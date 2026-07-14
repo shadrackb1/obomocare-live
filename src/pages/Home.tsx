@@ -21,10 +21,7 @@ export default function Home() {
             eager
             size="hero"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60"></div>
 
-          <motion.div animate={{ scale: [1, 1.2, 1], x: [0, 50, 0], y: [0, -30, 0] }} transition={{ duration: 15, repeat: Infinity, ease: "linear" }} className="absolute top-1/4 left-1/4 w-96 h-96 bg-secondary-container/40 rounded-full mix-blend-screen filter blur-[100px] opacity-70" />
-          <motion.div animate={{ scale: [1, 1.3, 1], x: [0, -40, 0], y: [0, 50, 0] }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }} className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary-container/40 rounded-full mix-blend-screen filter blur-[100px] opacity-70" />
         </div>
 
         <div className="relative z-10 text-center px-4 md:px-12 max-w-4xl mx-auto">
