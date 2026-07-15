@@ -1,21 +1,23 @@
 import React from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Image, Camera, Users, LogOut, Menu, X, UserCog } from 'lucide-react';
+import { LayoutDashboard, Image, Camera, UserCog, LogOut, Menu, X, FileText } from 'lucide-react';
 import { cn } from '../lib/utils';
 import Logo from './Logo';
+import { useFirebaseAuth } from '../lib/useFirebaseAuth';
 
 const navItems = [
-  { to: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { to: '/admin/dashboard', label: 'Media Gallery', icon: Image },
   { to: '/admin/team', label: 'Team Management', icon: UserCog },
-  { to: '/admin/media', label: 'Media Library', icon: Image },
+  { to: '/admin/content', label: 'Page Content', icon: FileText },
 ];
 
 export default function AdminLayout() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const navigate = useNavigate();
+  const { user, signOutUser } = useFirebaseAuth();
 
-  const handleLogout = () => {
-    sessionStorage.removeItem('obomocare_admin');
+  const handleLogout = async () => {
+    await signOutUser();
     navigate('/admin/login');
   };
 
@@ -28,7 +30,7 @@ export default function AdminLayout() {
             <Logo className="w-44 h-auto -ml-2" />
           </Link>
         </div>
-        
+
         <nav className="flex-1 py-6 flex flex-col gap-1 overflow-y-auto">
           {navItems.map(({ to, label, icon: Icon }) => (
             <SidebarLink key={to} to={to} icon={<Icon size={20} />}>
@@ -36,7 +38,7 @@ export default function AdminLayout() {
             </SidebarLink>
           ))}
         </nav>
-        
+
         <div className="p-4 border-t border-on-primary/10 space-y-2">
           <Link
             to="/"
@@ -90,11 +92,7 @@ export default function AdminLayout() {
       <main className="flex-1 min-h-screen bg-surface md:pb-12 pb-20 pt-16 md:pt-0">
         <header className="hidden md:flex h-16 bg-surface/90 backdrop-blur-md sticky top-0 z-40 border-b border-outline-variant/30 items-center justify-between px-8">
           <h1 className="font-display text-lg font-bold text-primary">Obomocare Admin</h1>
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-secondary-container text-on-primary flex items-center justify-center font-bold text-sm">
-              A
-            </div>
-          </div>
+          {user && <span className="text-sm text-on-surface-variant">{user.email}</span>}
         </header>
 
         <div className="px-4 md:px-8 pt-6 md:pt-8 max-w-[1200px] mx-auto space-y-8">
@@ -108,7 +106,7 @@ export default function AdminLayout() {
 function SidebarLink({ to, icon, children, onClick, ..._rest }: { to: string; icon: React.ReactNode; children: React.ReactNode; onClick?: () => void; [key: string]: unknown }) {
   const location = useLocation();
   const isActive = location.pathname === to;
-  
+
   return (
     <Link
       to={to}

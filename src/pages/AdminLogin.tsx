@@ -1,31 +1,35 @@
 import { useNavigate, Link } from 'react-router-dom';
-import { Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
-import React, { useState } from 'react';
+import { Lock, Eye, EyeOff, Loader2, Mail } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
 import Logo from '../components/Logo';
-
-const ADMIN_PASSWORD = '12345678';
+import { useFirebaseAuth } from '../lib/useFirebaseAuth';
 
 export default function AdminLogin() {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const { user, signIn } = useFirebaseAuth();
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
+  useEffect(() => {
+    if (user) navigate('/admin/dashboard', { replace: true });
+  }, [user, navigate]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
-
-    setTimeout(() => {
-      if (password === ADMIN_PASSWORD) {
-        sessionStorage.setItem('obomocare_admin', 'true');
-        navigate('/admin/dashboard');
-      } else {
-        setError('Invalid password. Please try again.');
-        setLoading(false);
-      }
-    }, 600);
+    try {
+      await signIn(email, password);
+      navigate('/admin/dashboard', { replace: true });
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Login failed';
+      setError(message.includes('invalid') ? 'Invalid credentials. Please try again.' : message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -35,9 +39,7 @@ export default function AdminLogin() {
           <Link to="/" className="inline-block">
             <Logo className="w-48 h-auto mx-auto" />
           </Link>
-          <p className="text-sm text-on-surface-variant mt-3 tracking-wide uppercase font-semibold">
-            Admin Portal
-          </p>
+          <p className="text-sm text-on-surface-variant mt-3 tracking-wide uppercase font-semibold">Admin Portal</p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg border border-outline-variant/20 p-8">
@@ -48,7 +50,24 @@ export default function AdminLogin() {
             <h1 className="font-display text-xl font-bold text-primary">Sign In</h1>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label className="block text-sm font-semibold text-on-surface mb-1.5" htmlFor="email">
+                Email Address
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant/60" size={18} />
+                <input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="admin@obomocare.com"
+                  required
+                  className="w-full pl-10 pr-4 py-3 border border-outline-variant/40 rounded-lg text-on-surface placeholder-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary-container focus:border-primary-container transition-all bg-surface"
+                />
+              </div>
+            </div>
             <div>
               <label className="block text-sm font-semibold text-on-surface mb-1.5" htmlFor="password">
                 Password
@@ -59,7 +78,7 @@ export default function AdminLogin() {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter admin password"
+                  placeholder="Enter your password"
                   required
                   className="w-full px-4 py-3 pr-10 border border-outline-variant/40 rounded-lg text-on-surface placeholder-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary-container focus:border-primary-container transition-all bg-surface"
                 />
@@ -71,9 +90,7 @@ export default function AdminLogin() {
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
-              {error && (
-                <p className="text-red-500 text-sm mt-2 font-medium">{error}</p>
-              )}
+              {error && <p className="text-red-500 text-sm mt-2 font-medium">{error}</p>}
             </div>
 
             <button
@@ -81,11 +98,7 @@ export default function AdminLogin() {
               disabled={loading}
               className="w-full py-3 bg-secondary-container text-on-primary font-bold rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-2 disabled:opacity-60"
             >
-              {loading ? (
-                <><Loader2 className="animate-spin" size={18} /> Authenticating...</>
-              ) : (
-                <><Lock size={18} /> Login</>
-              )}
+              {loading ? <><Loader2 className="animate-spin" size={18} /> Authenticating...</> : <><Lock size={18} /> Login</>}
             </button>
           </form>
         </div>
