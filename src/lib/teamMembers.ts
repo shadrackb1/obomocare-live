@@ -1,12 +1,12 @@
 import {
   collection,
   doc,
+  getDoc,
   getDocs,
   setDoc,
   deleteDoc,
   query,
   orderBy,
-  Timestamp,
 } from 'firebase/firestore';
 import { db } from './firebase';
 
@@ -33,10 +33,9 @@ export async function getAllTeamMembers(): Promise<TeamMember[]> {
 
 export async function getTeamMember(id: string): Promise<TeamMember | null> {
   const ref = doc(db, COLLECTION, id);
-  const snap = await getDocs(collection(db, COLLECTION));
-  const doc_ = snap.docs.find((d) => d.id === id);
-  if (!doc_) return null;
-  return { id: doc_.id, ...doc_.data() } as TeamMember;
+  const snap = await getDoc(ref);
+  if (!snap.exists()) return null;
+  return { id: snap.id, ...snap.data() } as TeamMember;
 }
 
 export async function saveTeamMember(member: TeamMember) {

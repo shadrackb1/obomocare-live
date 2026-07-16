@@ -1,10 +1,30 @@
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useImages } from '../components/ImageProvider';
 import PlaceholderImage from '../components/PlaceholderImage';
+import { usePageTitle } from '../components/SEO';
 
 export default function Volunteer() {
+  usePageTitle('Volunteer');
   const IMAGES = useImages();
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const firstName = formData.get('firstName') as string;
+    const lastName = formData.get('lastName') as string;
+    const email = formData.get('email') as string;
+    const interest = formData.get('interest') as string;
+    const message = formData.get('message') as string;
+
+    const mailtoLink = `mailto:info@obomocare.com?subject=${encodeURIComponent(`Volunteer Application: ${interest} - ${firstName} ${lastName}`)}&body=${encodeURIComponent(`From: ${firstName} ${lastName}\nEmail: ${email}\nArea of Interest: ${interest}\n\n${message}`)}`;
+    window.location.href = mailtoLink;
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 4000);
+  };
 
   return (
     <>
@@ -63,7 +83,7 @@ export default function Volunteer() {
             <p className="text-on-surface-variant">Fill out the form below and our coordinator will reach out to you within 48 hours.</p>
           </motion.div>
 
-          <form className="bg-white p-8 rounded-xl border border-outline-variant/30 shadow-sm">
+          <form onSubmit={handleSubmit} className="bg-white p-8 rounded-xl border border-outline-variant/30 shadow-sm">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div><label className="block text-sm font-bold text-primary mb-2" htmlFor="firstName">First Name</label><input type="text" id="firstName" className="w-full p-3 border border-outline-variant/50 rounded focus:border-secondary-container focus:ring-1 focus:ring-secondary-container outline-none transition-colors" placeholder="Jane" /></div>
               <div><label className="block text-sm font-bold text-primary mb-2" htmlFor="lastName">Last Name</label><input type="text" id="lastName" className="w-full p-3 border border-outline-variant/50 rounded focus:border-secondary-container focus:ring-1 focus:ring-secondary-container outline-none transition-colors" placeholder="Doe" /></div>
@@ -71,7 +91,7 @@ export default function Volunteer() {
             <div className="mb-6"><label className="block text-sm font-bold text-primary mb-2" htmlFor="email">Email Address</label><input type="email" id="email" className="w-full p-3 border border-outline-variant/50 rounded focus:border-secondary-container focus:ring-1 focus:ring-secondary-container outline-none transition-colors" placeholder="jane@example.com" /></div>
             <div className="mb-6"><label className="block text-sm font-bold text-primary mb-2" htmlFor="interest">Area of Interest</label><select id="interest" className="w-full p-3 border border-outline-variant/50 rounded focus:border-secondary-container focus:ring-1 focus:ring-secondary-container outline-none transition-colors"><option>Volunteer Caregiver Corps</option><option>Food Distribution Logistics</option><option>Elderly Companionship</option><option>Administrative Support</option><option>Other / Not Sure Yet</option></select></div>
             <div className="mb-8"><label className="block text-sm font-bold text-primary mb-2" htmlFor="message">Briefly tell us why you want to join</label><textarea id="message" rows={4} className="w-full p-3 border border-outline-variant/50 rounded focus:border-secondary-container focus:ring-1 focus:ring-secondary-container outline-none transition-colors resize-none" placeholder="I am passionate about..."></textarea></div>
-            <button type="button" onClick={(e) => { e.preventDefault(); alert('Application submitted successfully! We will contact you soon.'); }} className="w-full bg-secondary-container text-white font-bold py-4 rounded hover:opacity-90 transition-opacity">Submit Application</button>
+            <button type="submit" className="w-full bg-secondary-container text-white font-bold py-4 rounded hover:opacity-90 transition-opacity">{submitted ? 'Application Sent!' : 'Submit Application'}</button>
           </form>
         </div>
       </section>

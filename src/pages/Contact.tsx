@@ -1,9 +1,29 @@
-import { MapPin, Mail, Phone } from 'lucide-react';
+import React, { useState } from 'react';
+import { MapPin, Mail, Phone, Check } from 'lucide-react';
 import { useImages } from '../components/ImageProvider';
 import PlaceholderImage from '../components/PlaceholderImage';
+import { usePageTitle } from '../components/SEO';
 
 export default function Contact() {
+  usePageTitle('Contact Us');
   const IMAGES = useImages();
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const firstName = formData.get('firstName') as string;
+    const lastName = formData.get('lastName') as string;
+    const email = formData.get('email') as string;
+    const subject = formData.get('subject') as string;
+    const message = formData.get('message') as string;
+
+    const mailtoLink = `mailto:info@obomocare.com?subject=${encodeURIComponent(`[${subject}] ${firstName} ${lastName}`)}&body=${encodeURIComponent(`From: ${firstName} ${lastName}\nEmail: ${email}\n\n${message}`)}`;
+    window.location.href = mailtoLink;
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 4000);
+  };
 
   return (
     <div className="bg-surface relative z-20">
@@ -50,7 +70,7 @@ export default function Contact() {
                   <div className="bg-surface-variant p-4 rounded-full text-secondary-container"><Phone size={24} /></div>
                   <div>
                     <h3 className="font-semibold text-sm text-on-surface-variant uppercase tracking-wider mb-2">Call Us</h3>
-                    <a className="text-base text-on-surface hover:text-secondary-container transition-colors" href="tel:+254000000000">+254 (0) 000 000 000</a>
+                    <a className="text-base text-on-surface hover:text-secondary-container transition-colors" href="tel:+254700000000">+254 (0) 700 000 000</a>
                   </div>
                 </div>
               </div>
@@ -62,7 +82,7 @@ export default function Contact() {
 
           <div className="lg:col-span-7">
             <div className="bg-surface-container-lowest p-8 md:p-12 rounded-xl border border-outline-variant/30 shadow-sm h-full">
-              <form className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block font-semibold text-sm text-on-surface mb-2" htmlFor="firstName">First Name</label>

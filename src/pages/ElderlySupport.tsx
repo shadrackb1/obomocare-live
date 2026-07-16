@@ -2,8 +2,10 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useImages } from '../components/ImageProvider';
 import PlaceholderImage from '../components/PlaceholderImage';
+import { usePageTitle } from '../components/SEO';
 
 export default function ElderlySupport() {
+  usePageTitle('Elderly Support');
   const IMAGES = useImages();
 
   return (

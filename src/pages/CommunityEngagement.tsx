@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import CTA from '../components/CTA';
 import { useImages } from '../components/ImageProvider';
 import PlaceholderImage from '../components/PlaceholderImage';
+import { usePageTitle } from '../components/SEO';
 
 export default function CommunityEngagement() {
+  usePageTitle('Community Engagement');
   const IMAGES = useImages();
 
   return (

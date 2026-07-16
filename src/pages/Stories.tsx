@@ -1,17 +1,32 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import PlaceholderImage from '../components/PlaceholderImage';
 import { useImages } from '../components/ImageProvider';
+import { usePageTitle } from '../components/SEO';
+
+const ALL_STORIES = [
+  { id: 1, category: 'News', date: 'Oct 12, 2024', readTime: '5 min', title: 'Five Years, Zero International Funding', excerpt: 'How a grassroots model of self-sustainability has allowed OBOMOCARE to thrive independently, focusing solely on community-driven solutions rather than donor mandates.', imgKey: 'story1' as const, link: '/stories/1' },
+  { id: 2, category: 'Program Update', date: 'Sep 28, 2024', readTime: '8 min', title: 'Building a Caregiver Corps', excerpt: 'Inside the rigorous training program that transforms local volunteers into highly skilled caregivers, creating a sustainable health infrastructure from the ground up.', imgKey: 'story2' as const, link: '/stories/2' },
+  { id: 3, category: 'Interview', date: 'Sep 15, 2024', readTime: '15 min', title: 'The Frontline of Maternal Health', excerpt: 'An in-depth conversation with Dr. Amina on the daily realities, challenges, and quiet victories of delivering maternal care in underserved regions.', imgKey: 'story3' as const, link: '/stories/3' },
+];
+
+const CATEGORIES = ['All', 'News', 'Program Update', 'Interview'];
+const INITIAL_COUNT = 6;
 
 export default function Stories() {
+  usePageTitle('Stories');
   const IMAGES = useImages();
+  const [activeCategory, setActiveCategory] = useState('All');
+  const [visibleCount, setVisibleCount] = useState(INITIAL_COUNT);
 
-  const stories = [
-    { id: 1, category: 'News', date: 'Oct 12, 2024', readTime: '5 min', title: 'Five Years, Zero International Funding', excerpt: 'How a grassroots model of self-sustainability has allowed OBOMOCARE to thrive independently, focusing solely on community-driven solutions rather than donor mandates.', img: IMAGES.story1, link: '/stories/1' },
-    { id: 2, category: 'Program Update', date: 'Sep 28, 2024', readTime: '8 min', title: 'Building a Caregiver Corps', excerpt: 'Inside the rigorous training program that transforms local volunteers into highly skilled caregivers, creating a sustainable health infrastructure from the ground up.', img: IMAGES.story2, link: '/stories/2' },
-    { id: 3, category: 'Interview', date: 'Sep 15, 2024', readTime: '15 min', title: 'The Frontline of Maternal Health', excerpt: 'An in-depth conversation with Dr. Amina on the daily realities, challenges, and quiet victories of delivering maternal care in underserved regions.', img: IMAGES.story3, link: '/stories/3' },
-  ];
+  const filtered = activeCategory === 'All'
+    ? ALL_STORIES
+    : ALL_STORIES.filter((s) => s.category === activeCategory);
+
+  const visible = filtered.slice(0, visibleCount);
+  const hasMore = visibleCount < filtered.length;
 
   return (
     <>
@@ -58,18 +73,24 @@ export default function Stories() {
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="flex justify-between items-end mb-12 border-b border-primary-container/10 pb-4">
           <h2 className="font-display text-3xl md:text-5xl font-bold text-primary-container">Latest Stories</h2>
           <div className="hidden sm:flex gap-4">
-            <button className="text-sm font-semibold text-primary-container hover:text-secondary-container transition-colors">All</button>
-            <button className="text-sm font-semibold text-on-surface-variant hover:text-secondary-container transition-colors">News</button>
-            <button className="text-sm font-semibold text-on-surface-variant hover:text-secondary-container transition-colors">Interviews</button>
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => { setActiveCategory(cat); setVisibleCount(INITIAL_COUNT); }}
+                className={`text-sm font-semibold transition-colors ${activeCategory === cat ? 'text-primary-container' : 'text-on-surface-variant hover:text-secondary-container'}`}
+              >
+                {cat}
+              </button>
+            ))}
           </div>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {stories.map((story, i) => (
+          {visible.map((story, i) => (
             <motion.article initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} key={story.id} className="group cursor-pointer flex flex-col h-full bg-surface-container-lowest border border-outline-variant/30 hover:shadow-[0_0_30px_rgba(11,31,58,0.1)] transition-all duration-300 rounded-xl overflow-hidden">
               <div className="relative h-64 overflow-hidden">
-                <div className="bg-cover bg-center w-full h-full transform group-hover:scale-110 transition-transform duration-700" style={{ backgroundImage: `url('${story.img}')` }}>
-                  <PlaceholderImage imgSrc={story.img} fallbackLabel={`story${story.id}`} alt={story.title} className="w-full h-full object-cover" />
+                <div className="bg-cover bg-center w-full h-full transform group-hover:scale-110 transition-transform duration-700" style={{ backgroundImage: `url('${IMAGES[story.imgKey]}')` }}>
+                  <PlaceholderImage imgSrc={IMAGES[story.imgKey]} fallbackLabel={`story${story.id}`} alt={story.title} className="w-full h-full object-cover" />
                 </div>
                 <div className="absolute top-4 left-4 bg-primary-container/90 backdrop-blur-sm text-on-primary px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-sm">{story.category}</div>
               </div>
@@ -90,7 +111,14 @@ export default function Stories() {
         </div>
 
         <div className="mt-12 text-center">
-          <button className="bg-transparent border border-primary-container text-primary-container font-bold px-8 py-4 rounded hover:bg-surface-variant transition-all text-sm">Load More Stories</button>
+          {hasMore && (
+            <button
+              onClick={() => setVisibleCount((c) => c + INITIAL_COUNT)}
+              className="bg-transparent border border-primary-container text-primary-container font-bold px-8 py-4 rounded hover:bg-surface-variant transition-all text-sm"
+            >
+              Load More Stories
+            </button>
+          )}
         </div>
       </section>
     </>

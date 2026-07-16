@@ -2,8 +2,10 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import PlaceholderImage from '../components/PlaceholderImage';
 import { useImages } from '../components/ImageProvider';
+import { usePageTitle } from '../components/SEO';
 
 export default function ProgramDetail() {
+  usePageTitle('Maternal Health & Vital Care');
   const IMAGES = useImages();
 
   return (

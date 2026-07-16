@@ -15,7 +15,9 @@ export default function AdminMedia() {
   const [images, setImages] = useState<SiteImage[]>([]);
   const [copiedUrl, setCopiedUrl] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState('');
   const [filter, setFilter] = useState('');
+  const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -32,12 +34,14 @@ export default function AdminMedia() {
   const handleUpload = async (file: File) => {
     if (!file.type.startsWith('image/')) return;
     setUploading(true);
+    setUploadError('');
     try {
       const result = await uploadToCloudinary(file, 'obomocare');
       const id = `upload_${Date.now()}`;
       await saveSiteImage(id, result.secure_url, file.name.replace(/\.[^.]+$/, ''));
-    } catch (err) {
-      console.error('Upload failed:', err);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Upload failed';
+      setUploadError(message);
     } finally {
       setUploading(false);
       if (inputRef.current) inputRef.current.value = '';
@@ -47,6 +51,7 @@ export default function AdminMedia() {
   const handleDelete = async (img: SiteImage) => {
     const docId = img.slot || `upload_${img.url.split('/').pop()?.split('.')[0] || Date.now()}`;
     await removeSiteImage(docId);
+    setConfirmDelete(null);
   };
 
   const copyUrl = (url: string) => {
@@ -100,6 +105,7 @@ export default function AdminMedia() {
             className="hidden"
           />
         </label>
+        {uploadError && <p className="text-sm text-red-500 font-medium mt-2">{uploadError}</p>}
       </div>
 
       {/* Search */}
@@ -141,7 +147,33 @@ export default function AdminMedia() {
                       <Check size={14} className="text-green-600" />
                     ) : (
                       <Copy size={14} className="text-primary" />
-                    )}
+      )}
+
+      {confirmDelete && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-6 max-w-sm mx-4 shadow-xl">
+            <h3 className="font-display text-lg font-bold text-primary mb-2">Delete Image?</h3>
+            <p className="text-sm text-on-surface-variant mb-4">This action cannot be undone. The image will be permanently removed.</p>
+            <div className="flex items-center gap-3 justify-end">
+              <button
+                onClick={() => setConfirmDelete(null)}
+                className="px-4 py-2 text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  const img = images.find((i) => i.slot === confirmDelete);
+                  if (img) handleDelete(img);
+                }}
+                className="px-4 py-2 bg-red-500 text-white text-sm font-bold rounded-lg hover:bg-red-600 transition-colors"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
                   </button>
                   <a
                     href={img.url}
@@ -153,7 +185,7 @@ export default function AdminMedia() {
                     <ExternalLink size={14} className="text-primary" />
                   </a>
                   <button
-                    onClick={() => handleDelete(img)}
+                    onClick={() => setConfirmDelete(img.slot)}
                     className="w-9 h-9 rounded-full bg-white/90 flex items-center justify-center hover:bg-white transition-colors"
                     title="Delete"
                   >

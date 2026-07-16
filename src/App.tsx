@@ -36,6 +36,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import AdminTeam from './pages/AdminTeam';
 import AdminMedia from './pages/AdminMedia';
 import AdminContent from './pages/AdminContent';
+import NotFound from './pages/NotFound';
 
 const GA_ID = import.meta.env.VITE_GA_MEASUREMENT_ID;
 
@@ -72,6 +73,8 @@ export default function App() {
                   <Route path="faq" element={<FAQ />} />
                   <Route path="news" element={<News />} />
                 </Route>
+
+                <Route path="*" element={<NotFound />} />
 
                 <Route path="/admin/login" element={<AdminLogin />} />
                 <Route element={<ProtectedRoute />}>

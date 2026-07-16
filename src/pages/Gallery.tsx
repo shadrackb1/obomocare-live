@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { useImages } from '../components/ImageProvider';
 import PlaceholderImage from '../components/PlaceholderImage';
+import { usePageTitle } from '../components/SEO';
 
 type FilterCategory = 'all' | 'care' | 'food' | 'community';
 
@@ -21,6 +22,7 @@ const IMAGE_CATEGORIES: FilterCategory[] = [
 ];
 
 export default function Gallery() {
+  usePageTitle('Gallery');
   const IMAGES = useImages();
   const allImages = IMAGES.gallery;
   const [selectedImg, setSelectedImg] = useState<string | null>(null);

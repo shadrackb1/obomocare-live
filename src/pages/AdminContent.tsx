@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
   ChevronRight,
   ChevronDown,
@@ -15,7 +15,7 @@ import type { SiteContent, PageKey } from '../lib/defaultContent';
 
 type Primitive = string | number | boolean | null;
 type FieldValue = Primitive | Primitive[] | Record<string, unknown> | unknown[];
-type FieldRow = { path: string[]; label: string; value: FieldValue; kind: 'text' | 'textarea' | 'number' | 'array' };
+type FieldRow = { path: string[]; label: string; value: FieldValue; kind: 'text' | 'textarea' | 'number' | 'boolean' | 'array' };
 
 type SectionEntry = { k: PageKey; label: string };
 
@@ -62,7 +62,7 @@ function flattenToFields(data: Record<string, unknown>, prefix: string[] = []): 
     } else if (typeof v === 'number') {
       rows.push({ path, label: k, value: v as Primitive, kind: 'number' });
     } else if (typeof v === 'boolean') {
-      rows.push({ path, label: k, value: v as Primitive, kind: 'text' });
+      rows.push({ path, label: k, value: v as Primitive, kind: 'boolean' });
     } else {
       rows.push({ path, label: k, value: (v as Primitive) ?? '', kind: 'text' });
     }
@@ -90,6 +90,7 @@ export default function AdminContent() {
   const [dirtySections, setDirtySections] = useState<Set<string>>(new Set());
   const [saving, setSaving] = useState(false);
   const [savedMsg, setSavedMsg] = useState('');
+  const [publishError, setPublishError] = useState('');
 
   const initLocal = useCallback(
     (c: SiteContent) => {
@@ -106,11 +107,11 @@ export default function AdminContent() {
     [],
   );
 
-  useState(() => {
+  useEffect(() => {
     if (!loading && content) {
       initLocal(content);
     }
-  });
+  }, [loading, content, initLocal]);
 
   const toggle = (key: string) => {
     setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -147,6 +148,7 @@ export default function AdminContent() {
   const publishAll = async () => {
     if (dirtySections.size === 0) return;
     setSaving(true);
+    setPublishError('');
     try {
       const patch: Record<string, unknown> = { pages: {} as Record<string, unknown> };
       for (const key of dirtySections) {
@@ -158,7 +160,7 @@ export default function AdminContent() {
       setTimeout(() => setSavedMsg(''), 4000);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Failed to save';
-      alert('Error saving: ' + message);
+      setPublishError(message);
     } finally {
       setSaving(false);
     }
@@ -204,6 +206,13 @@ export default function AdminContent() {
         </div>
       )}
 
+      {publishError && (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-center gap-2 text-sm text-red-600">
+          <AlertTriangle size={16} />
+          {publishError}
+        </div>
+      )}
+
       <div className="space-y-3">
         {SECTIONS.map(({ k, label }) => {
           const isOpen = Boolean(expanded[k]);
@@ -236,6 +245,7 @@ export default function AdminContent() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
                     {fields.map((field) => (
                       <FieldEditor
+                        key={field.path.join('.')}
                         field={field}
                         value={field.value}
                         onChange={(next) => patchField(k, field.path.join('.'), next)}
@@ -252,7 +262,7 @@ export default function AdminContent() {
   );
 }
 
-function FieldEditor({ field, value, onChange }: { field: FieldRow; value: FieldValue; onChange: (value: FieldValue) => void }) {
+function FieldEditor({ field, value, onChange, key: _key }: { field: FieldRow; value: FieldValue; onChange: (value: FieldValue) => void; key?: React.Key }) {
   const label = formatLabel(field.label);
 
   if (field.kind === 'array') {
@@ -286,6 +296,21 @@ function FieldEditor({ field, value, onChange }: { field: FieldRow; value: Field
           className="flex items-center gap-1 text-xs font-bold text-secondary-container hover:opacity-80"
         >
           <Plus size={12} /> Add Item
+        </button>
+      </div>
+    );
+  }
+
+  if (field.kind === 'boolean') {
+    return (
+      <div className="flex items-center justify-between">
+        <label className="text-xs font-semibold text-on-surface-variant">{label}</label>
+        <button
+          type="button"
+          onClick={() => onChange(!value)}
+          className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${value ? 'bg-secondary-container' : 'bg-outline-variant/40'}`}
+        >
+          <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${value ? 'translate-x-6' : 'translate-x-1'}`} />
         </button>
       </div>
     );
@@ -339,7 +364,6 @@ function ArrayItemRow({ item, index, pathPrefix, onChange, onRemove, key }: { it
         </div>
       ))}
       <div className="flex gap-2 pt-1">
-        <button onClick={() => onChange(rec)} className="px-2 py-1 bg-green-500 text-white text-[10px] font-bold rounded">Save</button>
         <button onClick={onRemove} className="px-2 py-1 border border-red-200 text-red-500 text-[10px] font-bold rounded hover:bg-red-50">
           <Trash2 size={10} className="inline mr-1" /> Remove
         </button>

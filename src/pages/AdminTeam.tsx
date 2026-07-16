@@ -283,7 +283,7 @@ export default function AdminTeam() {
                   </label>
                 </div>
                 {imagePreview && (
-                  <div className="w-32 h-32 rounded-xl overflow-hidden border border-outline-variant/20 flex-shrink-0">
+                  <div className="relative w-32 h-32 rounded-xl overflow-hidden border border-outline-variant/20 flex-shrink-0">
                     <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
                     <button
                       type="button"

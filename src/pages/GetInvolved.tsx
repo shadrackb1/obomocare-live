@@ -3,8 +3,10 @@ import { ArrowRight, ArrowDown, Heart, Home, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useImages } from '../components/ImageProvider';
 import PlaceholderImage from '../components/PlaceholderImage';
+import { usePageTitle } from '../components/SEO';
 
 export default function GetInvolved() {
+  usePageTitle('Get Involved');
   const IMAGES = useImages();
 
   return (
@@ -172,11 +174,11 @@ export default function GetInvolved() {
                 </div>
                 <div className="grid grid-cols-3">
                   <span className="font-bold text-on-surface-variant col-span-1">Account Number:</span>
-                  <span className="col-span-2 text-primary font-medium tracking-wider">0123456789012</span>
+                  <span className="col-span-2 text-primary font-medium tracking-wider">TODO: Replace with real account</span>
                 </div>
                 <div className="grid grid-cols-3 pt-4">
                   <span className="font-bold text-on-surface-variant col-span-1">M-PESA Paybill:</span>
-                  <span className="col-span-2 text-primary font-medium tracking-wider text-secondary-container">246810</span>
+                  <span className="col-span-2 text-primary font-medium tracking-wider text-secondary-container">TODO: Replace with real paybill</span>
                 </div>
                 <div className="grid grid-cols-3">
                   <span className="font-bold text-on-surface-variant col-span-1">Account:</span>

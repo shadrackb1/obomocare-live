@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
+import { usePageTitle } from '../components/SEO';
 
 export default function FAQ() {
+  usePageTitle('FAQ');
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const faqs = [

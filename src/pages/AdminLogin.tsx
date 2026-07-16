@@ -4,14 +4,39 @@ import React, { useState, useEffect } from 'react';
 import Logo from '../components/Logo';
 import { useFirebaseAuth } from '../lib/useFirebaseAuth';
 
+const MAX_ATTEMPTS = 5;
+const LOCKOUT_MS = 300_000;
+
+function getAttempts(): { count: number; until: number } {
+  try {
+    const raw = localStorage.getItem('obomocare_login_attempts');
+    if (!raw) return { count: 0, until: 0 };
+    const data = JSON.parse(raw);
+    if (data.until && Date.now() > data.until) return { count: 0, until: 0 };
+    return data;
+  } catch {
+    return { count: 0, until: 0 };
+  }
+}
+
+function recordAttempt() {
+  const { count } = getAttempts();
+  const next = { count: count + 1, until: count + 1 >= MAX_ATTEMPTS ? Date.now() + LOCKOUT_MS : 0 };
+  localStorage.setItem('obomocare_login_attempts', JSON.stringify(next));
+  return next;
+}
+
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const { user, signIn } = useFirebaseAuth();
+  const { user, signIn, resetPassword } = useFirebaseAuth();
   const navigate = useNavigate();
+
+  const { count: attempts, until } = getAttempts();
+  const isLocked = until > 0;
 
   useEffect(() => {
     if (user) navigate('/admin/dashboard', { replace: true });
@@ -19,14 +44,28 @@ export default function AdminLogin() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isLocked) {
+      const secs = Math.ceil((until - Date.now()) / 1000);
+      setError(`Too many attempts. Try again in ${secs}s.`);
+      return;
+    }
     setError('');
     setLoading(true);
     try {
       await signIn(email, password);
+      localStorage.removeItem('obomocare_login_attempts');
       navigate('/admin/dashboard', { replace: true });
     } catch (err: unknown) {
+      const result = recordAttempt();
+      const remaining = MAX_ATTEMPTS - result.count;
       const message = err instanceof Error ? err.message : 'Login failed';
-      setError(message.includes('invalid') ? 'Invalid credentials. Please try again.' : message);
+      if (remaining <= 0) {
+        setError('Too many failed attempts. Locked for 5 minutes.');
+      } else if (message.includes('invalid') || message.includes('wrong') || message.includes('user-not-found')) {
+        setError(`Invalid credentials. ${remaining} attempt(s) remaining.`);
+      } else {
+        setError(message);
+      }
     } finally {
       setLoading(false);
     }
@@ -100,6 +139,29 @@ export default function AdminLogin() {
             >
               {loading ? <><Loader2 className="animate-spin" size={18} /> Authenticating...</> : <><Lock size={18} /> Login</>}
             </button>
+
+            <div className="text-center">
+              <button
+                type="button"
+                onClick={async () => {
+                  if (!email) {
+                    setError('Enter your email above first, then click Forgot Password.');
+                    return;
+                  }
+                  try {
+                    await resetPassword(email);
+                    setError('');
+                    alert('Password reset email sent. Check your inbox.');
+                  } catch (err: unknown) {
+                    const message = err instanceof Error ? err.message : 'Reset failed';
+                    setError(message.includes('user-not-found') ? 'No account found with this email.' : message);
+                  }
+                }}
+                className="text-xs text-on-surface-variant hover:text-primary transition-colors"
+              >
+                Forgot password?
+              </button>
+            </div>
           </form>
         </div>
 

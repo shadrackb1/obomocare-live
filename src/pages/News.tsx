@@ -3,8 +3,10 @@ import { motion } from 'framer-motion';
 import CTA from '../components/CTA';
 import { useImages } from '../components/ImageProvider';
 import PlaceholderImage from '../components/PlaceholderImage';
+import { usePageTitle } from '../components/SEO';
 
 export default function News() {
+  usePageTitle('News');
   const IMAGES = useImages();
 
   const news = [

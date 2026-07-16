@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import CTA from '../components/CTA';
 import PlaceholderImage from '../components/PlaceholderImage';
 import { useImages } from '../components/ImageProvider';
+import { usePageTitle } from '../components/SEO';
 
 const barData = [
   { year: '2020', households: 1200 },
@@ -23,6 +24,7 @@ const lineData = [
 ];
 
 export default function Impact() {
+  usePageTitle('Our Impact');
   const IMAGES = useImages();
 
   return (
@@ -43,10 +45,10 @@ export default function Impact() {
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="font-display text-4xl md:text-7xl font-bold text-on-primary mb-8 drop-shadow-lg tracking-tight">Measuring <span className="text-secondary-container">True</span> Change.</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }} className="text-xl text-inverse-primary max-w-2xl mx-auto mb-12">Data-driven transparency for every life touched in the Gusii Region.</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.6 }} className="flex justify-center">
-            <button className="bg-secondary-container text-white font-bold py-4 px-8 rounded-full hover:shadow-[0_0_30px_rgba(253,118,26,0.4)] transition-all flex items-center space-x-2 group">
+            <a href="/reports/2024-transparency-report.pdf" download className="bg-secondary-container text-white font-bold py-4 px-8 rounded-full hover:shadow-[0_0_30px_rgba(253,118,26,0.4)] transition-all flex items-center space-x-2 group">
               <Download size={20} className="group-hover:-translate-y-1 transition-transform" />
               <span>Download 2024 Transparency Report</span>
-            </button>
+            </a>
           </motion.div>
         </div>
       </section>

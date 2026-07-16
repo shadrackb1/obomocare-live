@@ -18,14 +18,7 @@ export function GoogleAnalytics({ measurementId }: { measurementId: string }) {
     document.head.appendChild(script);
 
     const configScript = document.createElement('script');
-    configScript.innerHTML = `
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '${measurementId}', {
-        page_path: window.location.pathname,
-      });
-    `;
+    configScript.textContent = `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', '${measurementId}', {page_path: window.location.pathname,});`;
     document.head.appendChild(configScript);
 
     return () => {

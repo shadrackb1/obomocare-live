@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Upload, X, Loader2, Image as ImageIcon } from 'lucide-react';
 import { uploadToCloudinary, type CloudinaryUploadResult } from '../lib/cloudinary';
 
@@ -14,12 +14,19 @@ export default function CloudinaryUpload({ folder, onUpload, className }: Props)
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    return () => {
+      if (preview) URL.revokeObjectURL(preview);
+    };
+  }, [preview]);
+
   const handleFile = async (file: File) => {
     if (!file.type.startsWith('image/')) {
       setError('Please select an image file.');
       return;
     }
 
+    if (preview) URL.revokeObjectURL(preview);
     setError(null);
     setPreview(URL.createObjectURL(file));
     setUploading(true);

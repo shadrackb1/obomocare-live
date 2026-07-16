@@ -5,6 +5,7 @@ import { IMAGES } from '../lib/images';
 import {
   saveSiteImage,
   removeSiteImage,
+  getAllSiteImages,
   onSnapshot,
   collection,
   db,
@@ -91,11 +92,14 @@ function PhotoSlotCard({
   onEditStart,
   onEditConfirm,
   onEditCancel,
+  confirmDelete,
+  onConfirmDelete,
+  onConfirmCancel,
 }: {
   slot: PhotoSlot;
   currentUrl: string | null;
   onSave: (slotId: string, url: string) => Promise<void>;
-  onDelete: (slotId: string) => Promise<void>;
+  onDelete: (slotId: string) => void;
   isEditing?: boolean;
   editLabel?: string;
   editDesc?: string;
@@ -104,7 +108,9 @@ function PhotoSlotCard({
   onEditStart?: () => void;
   onEditConfirm?: () => void;
   onEditCancel?: () => void;
-  [key: string]: unknown;
+  confirmDelete?: string | null;
+  onConfirmDelete?: () => void;
+  onConfirmCancel?: () => void;
 }) {
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -220,13 +226,30 @@ function PhotoSlotCard({
             </a>
           )}
           {currentUrl && isEditable && (
-            <button
-              onClick={() => onDelete(slot.id)}
-              className="w-9 h-9 rounded-lg border border-outline-variant/30 flex items-center justify-center text-on-surface-variant hover:bg-red-50 hover:text-red-500 hover:border-red-200 transition-colors"
-              title="Remove image"
-            >
-              <Trash2 size={14} />
-            </button>
+            confirmDelete === slot.id ? (
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={onConfirmDelete}
+                  className="px-2 h-9 bg-red-500 text-white text-[10px] font-bold rounded-lg hover:bg-red-600 transition-colors"
+                >
+                  Yes
+                </button>
+                <button
+                  onClick={onConfirmCancel}
+                  className="px-2 h-9 border border-outline-variant/30 text-[10px] font-bold rounded-lg hover:bg-surface-container-low transition-colors"
+                >
+                  No
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={onConfirmDelete}
+                className="w-9 h-9 rounded-lg border border-outline-variant/30 flex items-center justify-center text-on-surface-variant hover:bg-red-50 hover:text-red-500 hover:border-red-200 transition-colors"
+                title="Remove image"
+              >
+                <Trash2 size={14} />
+              </button>
+            )
           )}
         </div>
         {error && <p className="text-xs text-red-500 mt-2">{error}</p>}
@@ -248,6 +271,7 @@ export default function AdminDashboard() {
   const [editLabel, setEditLabel] = useState('');
   const [editDesc, setEditDesc] = useState('');
   const [persistError, setPersistError] = useState('');
+  const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
 
   useEffect(() => {
     const unsub = onSnapshot(collection(db, 'siteImages'), (snap) => {
@@ -262,7 +286,6 @@ export default function AdminDashboard() {
   }, []);
 
   const refreshLabelsFromFirestore = async () => {
-    const { getAllSiteImages } = await import('../lib/siteImages');
     const all = await getAllSiteImages();
     setSections((prev) =>
       prev.map((section) => ({
@@ -299,7 +322,13 @@ export default function AdminDashboard() {
   };
 
   const handleDelete = async (slotId: string) => {
-    await removeSiteImage(slotId);
+    try {
+      await removeSiteImage(slotId);
+      setConfirmDelete(null);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Failed to delete';
+      setPersistError(message);
+    }
   };
 
   const handleStartEdit = (slot: PhotoSlot) => {
@@ -406,7 +435,6 @@ export default function AdminDashboard() {
                     const isThisEditing = editingSlot === slot.id;
                     return (
                       <PhotoSlotCard
-                        key={slot.id}
                         slot={slot}
                         currentUrl={getImageUrl(slot.id)}
                         onSave={handleSave}
@@ -419,6 +447,9 @@ export default function AdminDashboard() {
                         onEditStart={() => handleStartEdit(slot)}
                         onEditConfirm={handleEditConfirm}
                         onEditCancel={handleEditCancel}
+                        confirmDelete={confirmDelete}
+                        onConfirmDelete={() => setConfirmDelete(slot.id)}
+                        onConfirmCancel={() => setConfirmDelete(null)}
                       />
                     );
                   })}

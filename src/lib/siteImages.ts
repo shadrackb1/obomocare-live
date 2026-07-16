@@ -21,11 +21,12 @@ export interface SiteImage {
   updatedAt: Timestamp | null;
 }
 
-export async function saveSiteImage(slot: string, url: string, label: string) {
+export async function saveSiteImage(slot: string, url: string, label: string, description?: string) {
   await setDoc(doc(db, COLLECTION, slot), {
     slot,
     url,
     label,
+    description: description || '',
     updatedAt: Timestamp.now(),
   });
 }

@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { usePageTitle } from '../components/SEO';
 
 export default function Partners() {
+  usePageTitle('Partners');
   const partners = [
     { name: "Global Health Initiative", type: "Medical Supply Partner", color: "bg-blue-100 text-blue-800" },
     { name: "Kenya Food Bank Network", type: "Logistics & Supply", color: "bg-green-100 text-green-800" },

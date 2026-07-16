@@ -50,7 +50,7 @@ export function SiteContentProvider({ children }: { children: ReactNode }) {
         setVersion((v) => v + 1);
       },
       (err) => {
-        console.warn('[siteContent] Firestore listener error:', err);
+        if (import.meta.env.DEV) console.warn('[siteContent] Firestore listener error:', err);
         setContent(defaultContent);
         setLoading(false);
         setError(err instanceof Error ? err.message : 'Unknown error');

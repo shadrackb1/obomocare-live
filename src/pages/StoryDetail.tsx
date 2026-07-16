@@ -1,8 +1,9 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, Navigate } from 'react-router-dom';
 import { Share2, BookmarkPlus } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useImages } from '../components/ImageProvider';
 import PlaceholderImage from '../components/PlaceholderImage';
+import { usePageTitle } from '../components/SEO';
 
 const STORIES: Record<string, {
   title: string;
@@ -69,12 +70,22 @@ const STORIES: Record<string, {
   },
 };
 
-const DEFAULT_STORY = STORIES['1'];
-
 export default function StoryDetail() {
   const IMAGES = useImages();
   const { id } = useParams<{ id: string }>();
-  const story = STORIES[id || '1'] || DEFAULT_STORY;
+  const story = id ? STORIES[id] : undefined;
+
+  usePageTitle(story?.title ?? 'Story');
+
+  if (!story) return <Navigate to="/stories" replace />;
+
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({ title: story.title, url: window.location.href });
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+    }
+  };
 
   return (
     <>
@@ -103,7 +114,7 @@ export default function StoryDetail() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="flex justify-center gap-4 text-on-surface-variant"
         >
-          <button aria-label="Share" className="p-3 rounded-full hover:bg-surface-container transition-colors">
+          <button onClick={handleShare} aria-label="Share" className="p-3 rounded-full hover:bg-surface-container transition-colors">
             <Share2 size={20} />
           </button>
           <button aria-label="Bookmark" className="p-3 rounded-full hover:bg-surface-container transition-colors">

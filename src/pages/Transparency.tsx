@@ -2,8 +2,10 @@ import { Link } from 'react-router-dom';
 import { CheckCircle2, FileText, Download } from 'lucide-react';
 import PlaceholderImage from '../components/PlaceholderImage';
 import { useImages } from '../components/ImageProvider';
+import { usePageTitle } from '../components/SEO';
 
 export default function Transparency() {
+  usePageTitle('Transparency');
   const IMAGES = useImages();
 
   return (
@@ -88,19 +90,19 @@ export default function Transparency() {
             <FileText className="text-secondary-container mb-6" size={40} />
             <h3 className="font-display text-2xl font-bold text-primary-container mb-3">Q4 2023 Audit</h3>
             <p className="text-on-surface-variant mb-8 flex-grow">Independent review of end-of-year financials.</p>
-            <button className="inline-flex items-center text-secondary-container font-semibold hover:opacity-80 transition-opacity">Download PDF <Download className="ml-2" size={16} /></button>
+            <a href="/reports/q4-2023-audit.pdf" download className="inline-flex items-center text-secondary-container font-semibold hover:opacity-80 transition-opacity">Download PDF <Download className="ml-2" size={16} /></a>
           </div>
           <div className="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/30 flex flex-col items-start hover:-translate-y-1 transition-transform duration-300">
             <FileText className="text-secondary-container mb-6" size={40} />
             <h3 className="font-display text-2xl font-bold text-primary-container mb-3">Q3 2023 Audit</h3>
             <p className="text-on-surface-variant mb-8 flex-grow">Quarterly review of program expenditures.</p>
-            <button className="inline-flex items-center text-secondary-container font-semibold hover:opacity-80 transition-opacity">Download PDF <Download className="ml-2" size={16} /></button>
+            <a href="/reports/q3-2023-audit.pdf" download className="inline-flex items-center text-secondary-container font-semibold hover:opacity-80 transition-opacity">Download PDF <Download className="ml-2" size={16} /></a>
           </div>
           <div className="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/30 flex flex-col items-start hover:-translate-y-1 transition-transform duration-300">
             <FileText className="text-secondary-container mb-6" size={40} />
             <h3 className="font-display text-2xl font-bold text-primary-container mb-3">2022 Annual Report</h3>
             <p className="text-on-surface-variant mb-8 flex-grow">Comprehensive yearly financial breakdown.</p>
-            <button className="inline-flex items-center text-secondary-container font-semibold hover:opacity-80 transition-opacity">Download PDF <Download className="ml-2" size={16} /></button>
+            <a href="/reports/2022-annual-report.pdf" download className="inline-flex items-center text-secondary-container font-semibold hover:opacity-80 transition-opacity">Download PDF <Download className="ml-2" size={16} /></a>
           </div>
         </div>
       </section>

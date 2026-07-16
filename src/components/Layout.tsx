@@ -38,8 +38,8 @@ export default function Layout() {
               <NavLink to="/stories">Stories</NavLink>
               <NavLink to="/gallery">Gallery</NavLink>
               <NavLink to="/team">Team</NavLink>
-              <NavLink to="/community-engagement">Community</NavLink>
-              <NavLink to="/contact">Contact</NavLink>
+              <NavLink to="/news">News</NavLink>
+              <NavLink to="/volunteer">Volunteer</NavLink>
           </div>
 
           <div className="hidden md:block">

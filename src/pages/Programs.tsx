@@ -4,8 +4,10 @@ import { motion } from 'framer-motion';
 import CTA from '../components/CTA';
 import PlaceholderImage from '../components/PlaceholderImage';
 import { useImages } from '../components/ImageProvider';
+import { usePageTitle } from '../components/SEO';
 
 export default function Programs() {
+  usePageTitle('Our Programs');
   const IMAGES = useImages();
 
   return (
@@ -83,8 +85,6 @@ export default function Programs() {
           </div>
         </motion.div>
       </section>
-
-      <CTA />
     </>
   );
 }

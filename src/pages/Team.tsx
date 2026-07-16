@@ -6,8 +6,10 @@ import PlaceholderImage from '../components/PlaceholderImage';
 import { getAllTeamMembers, type TeamMember } from '../lib/teamMembers';
 import { getMediaLibrary } from '../lib/siteImages';
 import { useState, useEffect } from 'react';
+import { usePageTitle } from '../components/SEO';
 
 export default function Team() {
+  usePageTitle('Our Team');
   const IMAGES = useImages();
   const [members, setMembers] = useState<TeamMember[]>([]);
   const [media, setMedia] = useState<Array<{ slot: string; url: string; label: string }>>([]);
@@ -15,11 +17,17 @@ export default function Team() {
 
   useEffect(() => {
     const load = async () => {
-      const [team, imgs] = await Promise.all([getAllTeamMembers(), getMediaLibrary()]);
-      const sorted = team.sort((a, b) => a.order - b.order);
-      setMembers(sorted);
-      setMedia(imgs.map((i) => ({ slot: i.slot, url: i.url, label: i.label })));
-      setLoading(false);
+      try {
+        const [team, imgs] = await Promise.all([getAllTeamMembers(), getMediaLibrary()]);
+        const sorted = team.sort((a, b) => a.order - b.order);
+        setMembers(sorted);
+        setMedia(imgs.map((i) => ({ slot: i.slot, url: i.url, label: i.label })));
+      } catch {
+        setMembers([]);
+        setMedia([]);
+      } finally {
+        setLoading(false);
+      }
     };
     load();
   }, []);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Image, Camera, UserCog, LogOut, Menu, X, FileText } from 'lucide-react';
 import { cn } from '../lib/utils';
@@ -14,7 +14,12 @@ const navItems = [
 export default function AdminLayout() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, signOutUser } = useFirebaseAuth();
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
 
   const handleLogout = async () => {
     await signOutUser();

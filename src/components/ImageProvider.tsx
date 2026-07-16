@@ -22,12 +22,11 @@ export function ImageProvider({ children }: { children: React.ReactNode }) {
           setOverrides(map);
         },
         (err) => {
-          console.warn('Firestore image sync failed, using defaults:', err.message);
+          if (import.meta.env.DEV) console.warn('Firestore image sync failed, using defaults:', err.message);
         }
       );
       return unsub;
-    } catch (err) {
-      console.warn('Firestore connection failed, using defaults:', err);
+    } catch {
       return () => {};
     }
   }, []);

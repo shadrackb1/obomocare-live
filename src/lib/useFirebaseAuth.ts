@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { auth } from "../lib/firebase";
-import { signInWithEmailAndPassword, signOut, onAuthStateChanged, type User } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut, sendPasswordResetEmail, onAuthStateChanged, type User } from "firebase/auth";
 
 type UseFirebaseAuthReturn = {
   user: User | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
   signOutUser: () => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
 };
 
 export const useFirebaseAuth = (): UseFirebaseAuthReturn => {
@@ -19,6 +20,10 @@ export const useFirebaseAuth = (): UseFirebaseAuthReturn => {
 
   const handleSignOut = async (): Promise<void> => {
     await signOut(auth);
+  };
+
+  const handleResetPassword = async (email: string): Promise<void> => {
+    await sendPasswordResetEmail(auth, email);
   };
 
   useEffect(() => {
@@ -34,5 +39,6 @@ export const useFirebaseAuth = (): UseFirebaseAuthReturn => {
     loading,
     signIn: handleSignIn,
     signOutUser: handleSignOut,
+    resetPassword: handleResetPassword,
   };
 };
