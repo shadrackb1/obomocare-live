@@ -93,7 +93,7 @@ export default function Layout() {
         <Outlet />
       </main>
 
-      <footer className="bg-primary-container w-full py-section-gap">
+      <footer className="bg-primary-container w-full py-16 md:py-20">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
           <div className="col-span-1 md:col-span-1 mb-8 md:mb-0">
             <Link to="/" className="block mb-4 hover:opacity-80 transition-opacity">
