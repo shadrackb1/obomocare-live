@@ -6,6 +6,8 @@ import {
   removeSiteImage,
   onSnapshot,
   collection,
+  query,
+  limit,
   db,
   type SiteImage,
 } from '../lib/siteImages';
@@ -21,7 +23,7 @@ export default function AdminMedia() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const unsub = onSnapshot(collection(db, 'siteImages'), (snap) => {
+    const unsub = onSnapshot(query(collection(db, 'siteImages'), limit(500)), (snap) => {
       const items: SiteImage[] = [];
       snap.forEach((d) => {
         items.push(d.data() as SiteImage);

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useState, useEffect, type ReactNode } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Image, Camera, UserCog, LogOut, Menu, X, FileText } from 'lucide-react';
 import { cn } from '../lib/utils';
@@ -12,7 +12,7 @@ const navItems = [
 ];
 
 export default function AdminLayout() {
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const { user, signOutUser } = useFirebaseAuth();
@@ -108,7 +108,7 @@ export default function AdminLayout() {
   );
 }
 
-function SidebarLink({ to, icon, children, onClick, ..._rest }: { to: string; icon: React.ReactNode; children: React.ReactNode; onClick?: () => void; [key: string]: unknown }) {
+function SidebarLink({ to, icon, children, onClick, ..._rest }: { to: string; icon: ReactNode; children: ReactNode; onClick?: () => void; [key: string]: unknown }) {
   const location = useLocation();
   const isActive = location.pathname === to;
 

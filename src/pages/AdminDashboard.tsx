@@ -8,6 +8,8 @@ import {
   getAllSiteImages,
   onSnapshot,
   collection,
+  query,
+  limit,
   db,
 } from '../lib/siteImages';
 import { cn } from '../lib/utils';
@@ -274,7 +276,7 @@ export default function AdminDashboard() {
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
 
   useEffect(() => {
-    const unsub = onSnapshot(collection(db, 'siteImages'), (snap) => {
+    const unsub = onSnapshot(query(collection(db, 'siteImages'), limit(500)), (snap) => {
       const map: Record<string, string> = {};
       snap.forEach((d) => {
         const data = d.data();

@@ -5,10 +5,12 @@ import {
   setDoc,
   deleteDoc,
   Timestamp,
+  query,
+  limit,
 } from 'firebase/firestore';
 import { db } from './firebase';
 
-export { onSnapshot, collection } from 'firebase/firestore';
+export { onSnapshot, collection, query, limit } from 'firebase/firestore';
 export { db } from './firebase';
 
 const COLLECTION = 'siteImages';
