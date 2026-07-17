@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { collection, onSnapshot } from 'firebase/firestore';
+import { collection, onSnapshot, query, limit } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { IMAGES as DEFAULT_IMAGES } from '../lib/images';
 import type { Images } from '../lib/images';
@@ -12,7 +12,7 @@ export function ImageProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     try {
       const unsub = onSnapshot(
-        collection(db, 'siteImages'),
+        query(collection(db, 'siteImages'), limit(500)),
         (snap) => {
           const map: Record<string, string> = {};
           snap.forEach((d) => {

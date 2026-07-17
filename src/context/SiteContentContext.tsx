@@ -33,23 +33,27 @@ export function SiteContentProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let unsub: Unsubscribe | null = null;
+    let debounceTimer: ReturnType<typeof setTimeout> | null = null;
 
     const docRef = doc(db, COLLECTION, SITE_CONTENT_ID);
     unsub = onSnapshot(
       docRef,
       (snap) => {
-        const raw = snap.data() as DocumentData | undefined;
-        if (raw && raw.pages) {
-          const merged = mergeContent(raw as Partial<SiteContentType>);
-          setContent(merged as SiteContentType);
-        } else {
-          setContent(defaultContent);
-        }
-        setLoading(false);
-        setError(null);
-        setVersion((v) => v + 1);
+        if (debounceTimer) clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+          const raw = snap.data() as DocumentData | undefined;
+          if (raw && raw.pages) {
+            const merged = mergeContent(raw as Partial<SiteContentType>);
+            setContent(merged as SiteContentType);
+          } else {
+            setContent(defaultContent);
+          }
+          setLoading(false);
+          setError(null);
+        }, 150);
       },
       (err) => {
+        if (debounceTimer) clearTimeout(debounceTimer);
         if (import.meta.env.DEV) console.warn('[siteContent] Firestore listener error:', err);
         setContent(defaultContent);
         setLoading(false);
@@ -57,7 +61,10 @@ export function SiteContentProvider({ children }: { children: ReactNode }) {
       },
     );
 
-    return () => unsub?.();
+    return () => {
+      unsub?.();
+      if (debounceTimer) clearTimeout(debounceTimer);
+    };
   }, []);
 
   const refresh = () => setVersion((v) => v + 1);

@@ -50,10 +50,57 @@ const GRADIENTS: Record<string, string> = {
   meeting2: 'linear-gradient(135deg, #0d2b4e 0%, #1e4a6e 60%, #fd761a 100%)',
 };
 
+const FALLBACK_SVG = encodeURIComponent(
+  `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300">
+    <defs>
+      <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#0b1f3a;stop-opacity:1"/>
+        <stop offset="50%" style="stop-color:#1a3a5c;stop-opacity:1"/>
+        <stop offset="100%" style="stop-color:#fd761a;stop-opacity:1"/>
+      </linearGradient>
+    </defs>
+    <rect width="400" height="300" fill="url(#g)"/>
+    <text x="200" y="145" font-family="sans-serif" font-size="14" font-weight="600"
+      fill="rgba(255,255,255,0.45)" text-anchor="middle">OBOMOCARE</text>
+    <text x="200" y="168" font-family="sans-serif" font-size="11"
+      fill="rgba(255,255,255,0.25)" text-anchor="middle">Supporting Independence with Dignity</text>
+  </svg>`
+);
+
+const buildFallbackSvg = (label: string) =>
+  encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300">
+      <defs>
+        <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#0b1f3a;stop-opacity:1"/>
+          <stop offset="50%" style="stop-color:#1a3a5c;stop-opacity:1"/>
+          <stop offset="100%" style="stop-color:#fd761a;stop-opacity:1"/>
+        </linearGradient>
+      </defs>
+      <rect width="400" height="300" fill="url(#g)"/>
+      <text x="200" y="145" font-family="sans-serif" font-size="14" font-weight="600"
+        fill="rgba(255,255,255,0.45)" text-anchor="middle">${label}</text>
+      <text x="200" y="168" font-family="sans-serif" font-size="11"
+        fill="rgba(255,255,255,0.25)" text-anchor="middle">Supporting Independence with Dignity</text>
+    </svg>`
+  );
+
 export default function PlaceholderImage({ imgSrc, fallbackLabel, gradient, className, alt, eager, size }: PlaceholderImageProps) {
   const bg = gradient || GRADIENTS[fallbackLabel || ''] || 'linear-gradient(135deg, #0b1f3a 0%, #fd761a 100%)';
   const width = size === 'hero' ? 1920 : size === 'card' ? 800 : size === 'thumb' ? 400 : undefined;
   const optimizedSrc = imgSrc ? optimizeCloudinaryUrl(imgSrc, width, size) : undefined;
+
+  const handleError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const el = e.currentTarget;
+    el.style.background = bg;
+    el.style.backgroundSize = 'cover';
+    el.style.objectFit = 'cover';
+    el.style.minHeight = '200px';
+    el.alt = '';
+    el.src = fallbackLabel
+      ? 'data:image/svg+xml,' + buildFallbackSvg(fallbackLabel)
+      : 'data:image/svg+xml,' + FALLBACK_SVG;
+  };
 
   return (
     <img
@@ -65,32 +112,7 @@ export default function PlaceholderImage({ imgSrc, fallbackLabel, gradient, clas
       fetchPriority={eager ? "high" : "auto"}
       width={size === 'hero' ? 1920 : size === 'card' ? 800 : size === 'thumb' ? 400 : undefined}
       height={size === 'hero' ? 1080 : size === 'card' ? 450 : size === 'thumb' ? 300 : undefined}
-      onError={(e) => {
-        const el = e.currentTarget;
-        el.style.background = bg;
-        el.style.backgroundSize = 'cover';
-        el.style.objectFit = 'cover';
-        el.style.minHeight = '200px';
-        el.alt = '';
-        el.src =
-          'data:image/svg+xml,' +
-          encodeURIComponent(
-            `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300">
-              <defs>
-                <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style="stop-color:#0b1f3a;stop-opacity:1"/>
-                  <stop offset="50%" style="stop-color:#1a3a5c;stop-opacity:1"/>
-                  <stop offset="100%" style="stop-color:#fd761a;stop-opacity:1"/>
-                </linearGradient>
-              </defs>
-              <rect width="400" height="300" fill="url(#g)"/>
-              <text x="200" y="145" font-family="sans-serif" font-size="14" font-weight="600"
-                fill="rgba(255,255,255,0.45)" text-anchor="middle">${fallbackLabel || 'OBOMOCARE'}</text>
-              <text x="200" y="168" font-family="sans-serif" font-size="11"
-                fill="rgba(255,255,255,0.25)" text-anchor="middle">Supporting Independence with Dignity</text>
-            </svg>`
-          );
-      }}
+      onError={handleError}
     />
   );
 }
